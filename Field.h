@@ -6,7 +6,11 @@ class Field {
 		int id;
 		string name;
 		int owner ;
-		int houses;
-		int earnMony[5];
+		int buildedHouses;
+		float earnForBuildingsMony[5];
 		int buy;
+		int type;
+		float housePrice;
+		string description;
+		bool special;
 };

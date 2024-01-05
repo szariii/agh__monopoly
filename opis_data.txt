@@ -1,0 +1,1 @@
+# id, nazwa, cena, budowlanka, id_kolor, cena_budynku, opis

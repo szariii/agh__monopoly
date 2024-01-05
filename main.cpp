@@ -1,9 +1,8 @@
 #include<iostream>;
-#include "logic.h";
+#include "MonopolyLogic.h";
 using namespace std;
 
 int main() {
-	cout << "dziala";
-	cout << "zmiana konta";
-	
+	MonopolyLogic game;
+	game.startGame();
 }
