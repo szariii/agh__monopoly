@@ -9,6 +9,8 @@ public:
 	float money;
 	int ownedPlaces[40];
 	int position;
+	int stopedRounds;
+	bool sittingInJail;
 
 
 };

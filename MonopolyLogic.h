@@ -5,6 +5,9 @@
 #include <cstdlib>; // ¿eby dzia³a³ exit(0);
 #include <string>;
 #include <algorithm>;
+#include <random>
+#include <cstdlib>;
+#include <ctime>
 
 using namespace std;
 #define MAX_SIZE 163824512352345;
@@ -15,7 +18,7 @@ class MonopolyLogic {
 
 
 public:
-	void startGame() {
+	void createBoard() {
 		Field boardFieldsTemporary[40] = {};
 		Field boardFields[40] = {};
 
@@ -403,24 +406,130 @@ public:
 			}
 		}
 
+		int countPlayers = 5;
+
 
 		for(int i=0;i<6;i++){
-			PlayerInformations player;
-			player.id = i;
-			player.money = 150;
-			player.position = 0;
-			players[i] = player;
-			boardPlayersPosition[0][i] = i;
-			cout << i << endl;
+			if (countPlayers > i) {
+				PlayerInformations player;
+				player.id = i;
+				player.money = 150;
+				player.position = 0;
+				player.name = "player";
+				player.stopedRounds = 1;
+				player.sittingInJail = false;
+				players[i] = player;
+				boardPlayersPosition[0][i] = i;
+				cout << i << endl;
+			}
+			else {
+				PlayerInformations player;
+				player.id = -1;
+				players[i] = player;
+			}
+
 		}
+
 
 		cout << boardPlayersPosition[0][2];
 
 		printPlayersPlaces(boardPlayersPosition);
+		startGame(boardPlayersPosition, boardFields, players);
+	}
+
+	void startGame(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players){
+		int startingPlayer = rollDice();
+		PlayerInformations currentPlayer;
+		int currentPlayerId;
+
+		for (int i = 0; i < 6; i++) {
+			if (i + startingPlayer < 6) {
+				if (players[startingPlayer + i].id != -1) {
+					currentPlayer = players[startingPlayer + i];
+					currentPlayerId = players[startingPlayer + i].id;
+				}
+			}
+			else {
+				if (players[startingPlayer + i-6].id != -1) {
+					currentPlayer = players[startingPlayer -6 + i];
+					currentPlayerId = players[startingPlayer + i].id;
+				}
+			}
+			
+		}
+
+		printPlayersInformations(currentPlayer);
+		startPlayerTurn(boardPlayersPosition, boardFields, players, currentPlayer);
+	}
+
+	void startPlayerTurn(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer){
+		if (currentPlayer.stopedRounds > 0) {
+			if (currentPlayer.sittingInJail == true) {
+
+			}
+			else {
+				nextPlayer(boardPlayersPosition, boardFields, players, currentPlayer);
+
+			}
+		}
+		else {
+
+		}
+
+
+	
+	}
+
+	void nextPlayer(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer){
+		PlayerInformations nextPlayer;
+		if (currentPlayer.id == 5) {
+			nextPlayer = players[0];
+			cout << "weszlo";
+		}
+		else {
+			if (players[currentPlayer.id + 1].id == -1) {
+				nextPlayer = players[0];
+			}
+			else {
+				nextPlayer = players[currentPlayer.id + 1];
+			}
+			cout << "weszlo";
+
+		}
+		string test;
+		cin >> test;
+		cout << nextPlayer.id << endl;
+		printPlayersInformationsArray(players);
+		printPlayersInformations(nextPlayer);
+		startPlayerTurn(boardPlayersPosition, boardFields, players, nextPlayer);
 
 	}
 
+	
 
+
+	int rollDice(){
+		srand(time(NULL));
+		return (rand() % 6) + 1;
+	}
+
+	void printPlayersInformationsArray(PlayerInformations* players){
+		for(int i =0;i<6;i++){
+			printPlayersInformations(players[i]);
+		}
+	}
+
+	void printPlayersInformations(PlayerInformations player) {
+			cout << "id: " << player.id<<endl;
+			cout << "name: " << player.name << endl;
+			cout << "money: " << player.money << endl;
+			cout << "position: " << player.position << endl;
+			cout << "stopedRounds: " << player.stopedRounds << endl;
+			cout << "sittingInJail: " << player.sittingInJail << endl;
+		}
+	
+
+	
 
 	void printPlayersPlaces(int boardPlayersPosition[][6]) {
 		cout << endl;
