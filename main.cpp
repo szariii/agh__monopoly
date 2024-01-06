@@ -1,9 +1,20 @@
-#include<iostream>;
-#include <SFML/Graphics.hpp>
+#include <iostream>;
+#include "Game.h"
 
 using namespace std;
 
-int main() {
-	cout << "dziala";
-	cout << "zmiana konta";
+int main()
+{
+    //Inicjalizacja gry.
+    Game game;
+
+    //Pêtla gry
+    while (game.running())
+    {
+        game.update();
+
+        game.render();
+    }
+
+    return 0;
 }
