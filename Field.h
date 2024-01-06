@@ -13,4 +13,5 @@ class Field {
 		float housePrice;
 		string description;
 		bool special;
+		int specialType;
 };

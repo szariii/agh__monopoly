@@ -1,1 +1,12 @@
 # id, nazwa, cena, budowlanka, id_kolor, cena_budynku, opis
+
+#special types id:
+	0 - start
+	1 - Studenta ciê¿ki ¿ywot
+	2 - Op³ata za warunek (200)
+	3 - railway x4
+	4 - szansa
+	5 - postoj
+	6 - doble x2
+	7 - wiezienie
+	8 - Op³ata za warunek (100)
