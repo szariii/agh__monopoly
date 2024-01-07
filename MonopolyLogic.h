@@ -58,7 +58,7 @@ public:
 						string temporaryvalue = "";
 						for(std::string::size_type j = 0; j < temporaryStr.size(); ++j){
 							if (temporaryStr[j] == ':') {
-								field.earnForBuildingsMony[indexTemporary] = stof(temporaryvalue);
+								field.earnForBuildingsMoney[indexTemporary] = stof(temporaryvalue);
 								indexTemporary = indexTemporary + 1;
 								temporaryvalue = "";
 							}
@@ -416,7 +416,7 @@ public:
 				player.money = 150;
 				player.position = 0;
 				player.name = "player";
-				player.stopedRounds = 1;
+				player.stopedRounds = 0;
 				player.sittingInJail = false;
 				players[i] = player;
 				boardPlayersPosition[0][i] = i;
@@ -431,9 +431,6 @@ public:
 		}
 
 
-		cout << boardPlayersPosition[0][2];
-
-		printPlayersPlaces(boardPlayersPosition);
 		startGame(boardPlayersPosition, boardFields, players);
 	}
 
@@ -473,11 +470,132 @@ public:
 			}
 		}
 		else {
+			cout << "Rzuæ kostk¹ graczu o ID: " << currentPlayer.id << endl;
+			int firstDice = rollDice();
+			int secondDice = rollDice();
+			cout << "pierwsza kostka: " << firstDice<<endl;
+			cout << "druga kostka: " << secondDice <<endl;
+			int playerPosition;
+			for (int i = 0; i < 40; i++) {
+				if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
+					playerPosition = i;
+					boardPlayersPosition[i][currentPlayer.id] = -1;
+				}
+			}
+			int nextPosition= findPlayerPositionMovingForward(playerPosition, firstDice + secondDice);
+			cout << "rolled fields: " << firstDice+secondDice <<endl;
+			cout << "nextPosition: " << nextPosition << endl;
+			boardPlayersPosition[nextPosition][currentPlayer.id] = currentPlayer.id;
+			//printPlayersPlaces(boardPlayersPosition);
+			if(firstDice==secondDice){
+				checkField(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition,true);
+			}
+			else {
+				checkField(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
 
+			}
+			
+			//nextPlayer(boardPlayersPosition, boardFields, players, currentPlayer);
 		}
 
 
 	
+	}
+
+	void checkField(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer,int nextPosition, bool doublet){
+		cout << "before" << endl;
+		printField(boardFields[nextPosition]);
+		printPlayersInformations(players[currentPlayer.id]);
+		Field sittingField = boardFields[nextPosition];
+		if(sittingField.special){
+		}
+		else {
+			if (sittingField.owner != -1) {
+				float cost = sittingField.earnForBuildingsMoney[sittingField.buildedHouses];
+				if (currentPlayer.money > cost) {
+					currentPlayer.money = currentPlayer.money - cost;
+					players[currentPlayer.id].money = players[currentPlayer.id].money - cost;
+				}
+				else {
+
+				}
+			}
+			else {
+				if (currentPlayer.money > sittingField.buy) {
+					cout << "Would you like to buy(true/false)? It cost: "<< sittingField.buy << endl;
+					string buy;
+					cin >> buy;
+					if (buy == "true") {
+						boardFields[nextPosition].owner = currentPlayer.id;
+						currentPlayer.money = currentPlayer.money - sittingField.buy;
+						players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
+					}
+
+
+
+				}
+			}
+		}
+		cout << "after" << endl;
+		printField(boardFields[nextPosition]);
+		printPlayersInformations(players[currentPlayer.id]);
+		nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
+	}
+
+	void nextplayerActions(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
+		cout << "Co chcesz zrobiæ?"<<endl;
+		cout << "1) Buduj apartamenty/hotele" << endl;
+		cout << "2) Sprzedaj apartamenty/hotele" << endl;
+		cout << "3) Sprzedaj pola" << endl;
+		if (doublet) {
+			cout << "4) Rzuæ ponownie (doublet)" << endl;
+		}
+		else {
+			cout << "4) Zakoñcz turê" << endl;
+		}
+		
+		char choosenAction;
+		cin >> choosenAction;
+
+		switch(choosenAction)
+		{
+		case '1':
+			break;
+		case '2':
+			break;
+		case '3':
+			break;
+		case '4':
+
+			if (doublet) {
+				startPlayerTurn(boardPlayersPosition, boardFields, players, players[currentPlayer.id]);
+			}
+			else {
+				nextPlayer(boardPlayersPosition, boardFields, players, currentPlayer);
+
+			}
+
+			break;
+		default:
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
+
+			break;
+		}
+		
+
+	}
+
+
+
+	int findPlayerPositionMovingForward(int startingPosition, int movingFields) {
+		if (startingPosition + movingFields < 40) {
+			return startingPosition + movingFields;
+		}
+		else {
+			int placesToStart = 40 - startingPosition;
+			int remainingPlaces = movingFields - placesToStart;
+			return remainingPlaces;
+		}
 	}
 
 	void nextPlayer(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer){
@@ -497,10 +615,9 @@ public:
 
 		}
 		string test;
+		cout << "Zakoñcz turê";
 		cin >> test;
 		cout << nextPlayer.id << endl;
-		printPlayersInformationsArray(players);
-		printPlayersInformations(nextPlayer);
 		startPlayerTurn(boardPlayersPosition, boardFields, players, nextPlayer);
 
 	}
@@ -536,7 +653,7 @@ public:
 		for (int i = 0; i < 40; i++) {
 			cout << i << ": ";
 			for (int j = 0; j < 6; j++) {
-				cout << boardPlayersPosition[i][j];
+				cout << " "<<boardPlayersPosition[i][j]<<" ";
 			}
 			cout << endl;
 		}
@@ -556,12 +673,12 @@ public:
 		cout << " name: " << field.name;
 		cout << " owner: " << field.owner;
 		cout << " buildedHouses: " << field.buildedHouses;
-		cout << " house[0]: " << field.earnForBuildingsMony[0];
-		cout << " house[1]: " << field.earnForBuildingsMony[1];
-		cout << " house[2]: " << field.earnForBuildingsMony[2];
-		cout << " house[3]: " << field.earnForBuildingsMony[3];
-		cout << " house[4]: " << field.earnForBuildingsMony[4];
-		cout << " house[4]: " << field.earnForBuildingsMony[4];
+		cout << " house[0]: " << field.earnForBuildingsMoney[0];
+		cout << " house[1]: " << field.earnForBuildingsMoney[1];
+		cout << " house[2]: " << field.earnForBuildingsMoney[2];
+		cout << " house[3]: " << field.earnForBuildingsMoney[3];
+		cout << " house[4]: " << field.earnForBuildingsMoney[4];
+		cout << " house[4]: " << field.earnForBuildingsMoney[4];
 		cout << " buy: " << field.buy;
 		cout << " type: " << field.type;
 		cout << " housePrice: " << field.housePrice;

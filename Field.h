@@ -7,7 +7,7 @@ class Field {
 		string name;
 		int owner ;
 		int buildedHouses;
-		float earnForBuildingsMony[5];
+		float earnForBuildingsMoney[5];
 		int buy;
 		int type;
 		float housePrice;
