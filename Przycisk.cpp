@@ -6,19 +6,23 @@
 
 Przycisk::Przycisk(const KonfigPrzycisku& config, sf::RenderWindow& window) : okno(window)
 {
-  
-    przycisk.setPosition(config.x, config.y);
+
+
     przycisk.setSize(sf::Vector2f(config.szerokosc, config.wysokosc));
     przycisk.setFillColor(config.kolorTla);
-    tekst.setFont(config.czcionka);  
+    przycisk.setOrigin(sf::Vector2f(config.szerokosc / 2.0f, config.wysokosc / 2.0f));
+    przycisk.setPosition(sf::Vector2f(config.x, config.y));
+    tekst.setFont(config.czcionka);
     tekst.setString(config.tekst);
     tekst.setCharacterSize(config.wielkoscLiter);
     tekst.setFillColor(config.kolorTekstu);
-    tekst.setPosition(
-        config.x + (config.szerokosc - tekst.getGlobalBounds().width) / 2,
-        config.y + (config.wysokosc - tekst.getGlobalBounds().height) / 2
-    );
+    // Ustawianie pozycji tekstu w centrum przycisku
+    sf::FloatRect textBounds = tekst.getLocalBounds();
+    tekst.setOrigin(sf::Vector2f(textBounds.width / 2.0f, textBounds.height / 2.0f));
+    // Pozycja tekstu ustawiona w odniesieniu do przycisku
+    tekst.setPosition(sf::Vector2f(config.x, config.y));
 }
+
 
 Przycisk::~Przycisk() 
 {
