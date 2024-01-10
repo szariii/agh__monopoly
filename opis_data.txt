@@ -7,6 +7,5 @@
 	3 - railway x4
 	4 - szansa
 	5 - postoj
-	6 - doble x2
 	7 - wiezienie
 	8 - Op³ata za warunek (100)

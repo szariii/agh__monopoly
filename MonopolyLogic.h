@@ -89,7 +89,7 @@ public:
 			}
 
 			field.buildedHouses = 0;
-			field.owner = 0;
+			field.owner = 1;
 			field.special = false;
 			boardFieldsTemporary[filedIndex] = field;
 			filedIndex = filedIndex + 1;
@@ -143,8 +143,11 @@ public:
 
 
 		Field railroad1;
+		railroad1.owner = 0;
+		railroad1.buy = 20;
 		railroad1.id = index;
 		railroad1.name = "Railiwaa";
+		railroad1.buildedHouses = 0;
 		railroad1.special = true;
 		railroad1.specialType = 3;
 		boardFields[index] = railroad1;
@@ -217,9 +220,12 @@ public:
 
 
 		Field railroad2;
+		railroad2.owner = 0;
+		railroad2.buy = 20;
 		railroad2.id = index;
 		railroad2.name = "Railiwaa";
 		railroad2.special = true;
+		railroad2.buildedHouses = 0;
 		railroad2.specialType = 3;
 		boardFields[index] = railroad2;
 		index = index + 1;
@@ -285,9 +291,12 @@ public:
 		commonFieldIndex = commonFieldIndex + 1;
 
 		Field railroad3;
+		railroad3.owner = 0;
+		railroad3.buy = 20;
 		railroad3.id = index;
 		railroad3.name = "Railiwaa";
 		railroad3.special = true;
+		railroad3.buildedHouses = 0;
 		railroad3.specialType = 3;
 		boardFields[index] = railroad3;
 		index = index + 1;
@@ -354,9 +363,12 @@ public:
 		commonFieldIndex = commonFieldIndex + 1;
 
 		Field railroad4;
+		railroad4.owner = 0;
 		railroad4.id = index;
+		railroad4.buy = 20;
 		railroad4.name = "Railiwaa";
 		railroad4.special = true;
+		railroad4.buildedHouses = 0;
 		railroad4.specialType = 3;
 		boardFields[index] = railroad4;
 		index = index + 1;
@@ -412,8 +424,8 @@ public:
 			if (countPlayers > i) {
 				PlayerInformations player;
 				player.id = i;
-				player.money = 150;
-				player.position = 0;
+				player.money = 0;
+				player.position = 1;
 				player.name = "player";
 				player.stopedRounds = 0;
 				player.sittingInJail = false;
@@ -503,22 +515,42 @@ public:
 
 	void checkField(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet) {
 		cout << "before" << endl;
+		cout << "id gracza: " << currentPlayer.id << endl;
 		printField(boardFields[nextPosition]);
 		printPlayersInformations(players[currentPlayer.id]);
 		Field sittingField = boardFields[nextPosition];
+		bool stillPlaying = true;
 		if (sittingField.special) {
+			if(sittingField.specialType==1){
+				//studencki ciezki zywot
+			}
+			else if (sittingField.specialType == 2) {
+				//oplata za warunek - 200
+			}
+			else if (sittingField.specialType == 3) {
+				//railway
+			}else if(sittingField.specialType == 4){
+				//szansa
+			}else if(sittingField.specialType == 7){
+				//wiezeinie
+			}else if(sittingField.specialType == 8){
+				//oplata za warunek - 200
+			}
 		}
 		else {
 			if (sittingField.owner != -1) {
 				if (sittingField.owner != currentPlayer.id) {
 					float cost = sittingField.earnForBuildingsMoney[sittingField.buildedHouses];
-					if (currentPlayer.money > cost) {
+					if (currentPlayer.money >= cost) {
 						currentPlayer.money = currentPlayer.money - cost;
 						players[currentPlayer.id].money = players[currentPlayer.id].money - cost;
 						players[sittingField.owner].money = players[sittingField.owner].money + cost;
+
+
 					}
 					else {
-
+						notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, cost, sittingField.owner);
+						stillPlaying = false;
 					}
 				}
 
@@ -538,11 +570,70 @@ public:
 
 				}
 			}
+
 		}
-		cout << "after" << endl;
-		printField(boardFields[nextPosition]);
-		printPlayersInformations(players[currentPlayer.id]);
-		nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+		if (stillPlaying) {
+			cout << "after" << endl;
+			printField(boardFields[nextPosition]);
+			printPlayersInformations(players[currentPlayer.id]);
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+		}
+
+
+	}
+
+	void notEnoughtMoney(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet,float money, int ownerId) {
+		cout << "cena: " << money;
+		if (players[currentPlayer.id].money < money) {
+			cout << "Co chcesz zrobiæ?" << endl;
+			cout << "1) Sprzedaj pola" << endl;
+			cout << "2) Sprzedaj apartamenty/hotele" << endl;
+			cout << "3) Poddaj sie" << endl;
+
+			int choosenAction;
+			cin >> choosenAction;
+
+			switch (choosenAction)
+			{
+			case 1:
+				houseAction(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, true, true,money, ownerId);
+				break;
+			case 2:
+				sellField(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, true, money, ownerId);
+				break;
+			case 3:
+				endGame(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+				break;
+			default:
+				notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, money, ownerId);
+				break;
+			}
+
+		}
+		else {
+			cout << "Weszlo w wyjscie"<<endl;
+			players[ownerId].money = players[ownerId].money + money;
+			players[currentPlayer.id].money = players[currentPlayer.id].money - money;
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+
+		}
+
+
+	}
+
+	void endGame(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet) {
+		for (int i = 0; i < 40; i++) {
+			if (boardFields[i].owner == currentPlayer.id) {
+				boardFields[i].owner = -1;
+			}
+			if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
+				boardPlayersPosition[i][currentPlayer.id] = -1;
+			}
+		}
+		players[currentPlayer.id].id = -1;
+		
+		endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
+
 	}
 
 	void nextplayerActions(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet) {
@@ -559,20 +650,21 @@ public:
 
 		printPlayersInformations(currentPlayer);
 
-		char choosenAction;
+		int choosenAction;
 		cin >> choosenAction;
 
 		switch (choosenAction)
 		{
-		case '1':
-			houseAction(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet,false);
+		case 1:
+			houseAction(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet,false, false, 0 ,0);
 			break;
-		case '2':
-			houseAction(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, true);
+		case 2:
+			houseAction(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, true, false,0,0);
 			break;
-		case '3':
+		case 3:
+			sellField(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, false,0,0);
 			break;
-		case '4':
+		case 4:
 			endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
 			break;
 		default:
@@ -584,7 +676,7 @@ public:
 
 	}
 
-	void houseAction(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, bool destroy) {
+	void houseAction(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, bool destroy,bool notEnoughtMoneyBool, int money,int ownerId) {
 		Field playerFields[40] = {};
 		Field possibleBuildingFields[40] = {};
 		int currentIndex = 0;
@@ -632,6 +724,13 @@ public:
 		}
 		int indexTemporary = 0;
 
+		if (destroy) {
+			cout << "Mo¿liwe pola do zburzenia domków: " << endl;
+		}
+		else {
+			cout << "Mo¿liwe pola do budowy domków" << endl;
+		}
+
 		for (int i = 0; i < 9; i++) {
 			if (possibleFieldsTypes[i] == i + 1) {
 				Field temporaryArray[3] = {};
@@ -661,11 +760,7 @@ public:
 					}
 				}
 
-				cout << "maxes: " << maxHouses << endl;
-
-
 				if (destroy) {
-					cout << "Mo¿liwe domy do zburzenia: " << endl;
 					for (int i = 0; i < 3; i++) {
 						if(maxHouses!=0){
 							if (temporaryArray[i].id != -1 && temporaryArray[i].buildedHouses == maxHouses) {
@@ -673,31 +768,21 @@ public:
 								arrayWithId[indexTemporary] = temporaryArray[i].id;
 							}
 						}
-						//else {
-						//	if (temporaryArray[i].id != -1 && temporaryArray[i].buildedHouses == 4) {
-						//		cout << temporaryArray[i].id << ") " << temporaryArray[i].name << " który ma " << temporaryArray[i].buildedHouses << " za " << temporaryArray[i].housePrice;
-						//		arrayWithId[indexTemporary] = temporaryArray[i].id;
-						//	}
-						//}
+
 
 					}
 				}
 				else {
-					cout << "Mo¿liwe domy do postawienia: " << endl;
 					for (int i = 0; i < 3; i++) {
 						if (minHouses != 5) {
 							if (temporaryArray[i].id != -1 && temporaryArray[i].buildedHouses == minHouses) {
 								cout << "weszlo w wypis"<<endl;
 								cout << temporaryArray[i].id << ") " << temporaryArray[i].name << " ktory ma " << temporaryArray[i].buildedHouses << " za " << temporaryArray[i].housePrice <<endl;
 								arrayWithId[indexTemporary] = temporaryArray[i].id;
+								indexTemporary = indexTemporary + 1;
 							}
 						}
-						//else {
-						//	if (temporaryArray[i].id != -1 && temporaryArray[i].buildedHouses == 1) {
-						//		cout << temporaryArray[i].id << ") " << temporaryArray[i].name << " który ma " << temporaryArray[i].buildedHouses << " za " << temporaryArray[i].housePrice;
-						//		arrayWithId[indexTemporary] = temporaryArray[i].id;
-						//	}
-						//}
+
 
 					}
 				}
@@ -743,9 +828,106 @@ public:
 				}
 			}
 		}
-		nextplayerActions(boardPlayersPosition, boardFields, players, players[currentPlayer.id], nextPosition, doublet);
+
+		if (notEnoughtMoneyBool) {
+			notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, money, ownerId);
+		}
+		else {
+			nextplayerActions(boardPlayersPosition, boardFields, players, players[currentPlayer.id], nextPosition, doublet);
+
+		}
 	}
 
+	void sellField(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, bool notEnoughtMoneyBool, int money, int ownerId){
+		Field playerFields[40] = {};
+		Field possibleBuildingFields[40] = {};
+		int typesWithBuildings[8] = {};
+		int sellingFieldsId[40] = {};
+
+		
+		for (int i = 0; i < 40; i++) {
+			playerFields[i].id = -1;
+			sellingFieldsId[i] = -1;
+		}
+
+		for(int i =0; i<8;i++){
+			typesWithBuildings[i] = -1;
+		}
+
+		int currentIndex = 0;
+
+		for (int i = 0; i < 40; i++) {
+			if (boardFields[i].owner == currentPlayer.id) {
+				playerFields[currentIndex] = boardFields[i];
+				currentIndex = currentIndex + 1;
+				if (boardFields[i].buildedHouses != 0) {
+					typesWithBuildings[boardFields[i].type] = typesWithBuildings[boardFields[i].type];
+				}
+			}
+		}
+
+		currentIndex = 0;
+
+		for (int i = 0; i < 40; i++) {
+			if (playerFields[i].id != -1) {
+				for (int j = 0; j < 8; j++) {
+					if (playerFields[i].type == typesWithBuildings[j]) {
+						playerFields[i].id = -1;
+					}
+				}
+			}
+		}
+
+		cout << "Mo¿liwe pola do sprzedania" << endl;
+
+
+		for (int i = 0; i < 40; i++) {
+			if(playerFields[i].id != -1){
+				cout << playerFields[i].id << ") " << playerFields[i].name <<" za " << playerFields[i].buy << endl;
+				sellingFieldsId[i] = playerFields[i].id;
+			}
+		}
+
+		cout << "40) Anuluj" << endl;
+		int selectdValue;
+		bool exitFlag = true;
+		bool choosenAction = true;
+		while (exitFlag)
+		{
+			cout << "Wybierz id z poœród podanych" << endl;
+
+			cin >> selectdValue;
+
+			for (int i = 0; i < 40; i++) {
+				if (playerFields[i].id == selectdValue) {
+					exitFlag = false;
+				}
+			}
+
+			if (selectdValue == 40) {
+				exitFlag = false;
+				choosenAction = false;
+			}
+		}
+
+		if (choosenAction) {
+				players[currentPlayer.id].money = players[currentPlayer.id].money + boardFields[selectdValue].buy;
+				boardFields[selectdValue].owner = -1;
+		}
+		
+		if (notEnoughtMoneyBool) {
+			notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, money, ownerId);
+
+		}
+		else {
+			nextplayerActions(boardPlayersPosition, boardFields, players, players[currentPlayer.id], nextPosition, doublet);
+
+		}
+
+
+
+
+	}
 
 
 
@@ -774,25 +956,44 @@ public:
 
 		void nextPlayer(int boardPlayersPosition[][6], Field * boardFields, PlayerInformations * players, PlayerInformations currentPlayer) {
 			PlayerInformations nextPlayer;
-			if (currentPlayer.id == 5) {
-				nextPlayer = players[0];
-				cout << "weszlo";
-			}
-			else {
-				if (players[currentPlayer.id + 1].id == -1) {
-					nextPlayer = players[0];
+			bool nextPlayerIsChoosen = false;
+			bool endGame = true;
+			for (int i = 0; i < 6; i++) {
+				if (currentPlayer.id+1 + i >= 6) {
+					if (players[currentPlayer.id + 1 + i - 6].id != -1) {
+						if (!nextPlayerIsChoosen) {
+							nextPlayer =players[currentPlayer.id + 1 + i - 6];
+							nextPlayerIsChoosen = true;
+						}
+						else {
+							endGame = false;
+						}
+					}
 				}
 				else {
-					nextPlayer = players[currentPlayer.id + 1];
+					if (players[currentPlayer.id + 1 + i].id != -1) {
+						if (!nextPlayerIsChoosen) {
+							nextPlayer = players[currentPlayer.id + 1 + i];
+							nextPlayerIsChoosen = true;
+						}
+						else {
+							endGame = false;
+						}
+					}
 				}
-				cout << "weszlo";
-
 			}
-			string test;
-			cout << "Zakoñcz turê";
-			cin >> test;
-			cout << nextPlayer.id << endl;
-			startPlayerTurn(boardPlayersPosition, boardFields, players, nextPlayer);
+
+			if (!endGame) {
+				string test;
+				cout << "Zakoñcz turê";
+				cin >> test;
+				cout << nextPlayer.id << endl;
+				startPlayerTurn(boardPlayersPosition, boardFields, players, nextPlayer);
+			}
+			else {
+				cout << "Wygra³ gracz o ID: " << nextPlayer.id << endl;
+			}
+
 
 		}
 
