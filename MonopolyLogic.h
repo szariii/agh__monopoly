@@ -145,8 +145,12 @@ public:
 		Field railroad1;
 		railroad1.owner = 0;
 		railroad1.buy = 20;
+		railroad1.earnForBuildingsMoney[1] = 2.5;
+		railroad1.earnForBuildingsMoney[2] = 5;
+		railroad1.earnForBuildingsMoney[3] = 10;
+		railroad1.earnForBuildingsMoney[4] = 20;
 		railroad1.id = index;
-		railroad1.name = "Railiwaa";
+		railroad1.name = "lotniosk Kraków Balice";
 		railroad1.buildedHouses = 0;
 		railroad1.special = true;
 		railroad1.specialType = 3;
@@ -200,8 +204,8 @@ public:
 		Field dobuleField1;
 		dobuleField1.id = index;
 		dobuleField1.special = true;
-		dobuleField1.specialType = 6;
-		dobuleField1.name = "dobleField1";
+		dobuleField1.specialType = 4;
+		dobuleField1.name = "szansa";
 		boardFields[index] = dobuleField1;
 		index = index + 1;
 
@@ -223,8 +227,12 @@ public:
 		railroad2.owner = 0;
 		railroad2.buy = 20;
 		railroad2.id = index;
-		railroad2.name = "Railiwaa";
+		railroad2.name = "dworzec g³ówny Kraków";
 		railroad2.special = true;
+		railroad2.earnForBuildingsMoney[1] = 2.5;
+		railroad2.earnForBuildingsMoney[2] = 5;
+		railroad2.earnForBuildingsMoney[3] = 10;
+		railroad2.earnForBuildingsMoney[4] = 20;
 		railroad2.buildedHouses = 0;
 		railroad2.specialType = 3;
 		boardFields[index] = railroad2;
@@ -294,7 +302,11 @@ public:
 		railroad3.owner = 0;
 		railroad3.buy = 20;
 		railroad3.id = index;
-		railroad3.name = "Railiwaa";
+		railroad3.earnForBuildingsMoney[1] = 2.5;
+		railroad3.earnForBuildingsMoney[2] = 5;
+		railroad3.earnForBuildingsMoney[3] = 10;
+		railroad3.earnForBuildingsMoney[4] = 20;
+		railroad3.name = "autobus MPK";
 		railroad3.special = true;
 		railroad3.buildedHouses = 0;
 		railroad3.specialType = 3;
@@ -366,7 +378,11 @@ public:
 		railroad4.owner = 0;
 		railroad4.id = index;
 		railroad4.buy = 20;
-		railroad4.name = "Railiwaa";
+		railroad4.earnForBuildingsMoney[1] = 2.5;
+		railroad4.earnForBuildingsMoney[2] = 5;
+		railroad4.earnForBuildingsMoney[3] = 10;
+		railroad4.earnForBuildingsMoney[4] = 20;
+		railroad4.name = "tramwaj MPK";
 		railroad4.special = true;
 		railroad4.buildedHouses = 0;
 		railroad4.specialType = 3;
@@ -476,14 +492,16 @@ public:
 
 			}
 			else {
+				cout << "Pauzujesz t¹ kolejkê. Zosta³o: "<< players[currentPlayer.id].stopedRounds - 1<<endl;
+				players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds - 1;
 				nextPlayer(boardPlayersPosition, boardFields, players, currentPlayer);
 
 			}
 		}
 		else {
 			cout << "Rzuæ kostk¹ graczu o ID: " << currentPlayer.id << endl;
-			int firstDice = rollDice();
-			int secondDice = rollDice();
+			int firstDice = 0;//rollDice();
+			int secondDice = 2;//rollDice();
 			cout << "pierwsza kostka: " << firstDice << endl;
 			cout << "druga kostka: " << secondDice << endl;
 			int playerPosition;
@@ -523,18 +541,30 @@ public:
 		if (sittingField.special) {
 			if(sittingField.specialType==1){
 				//studencki ciezki zywot
+				hardLife(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+				stillPlaying = false;
 			}
 			else if (sittingField.specialType == 2) {
 				//oplata za warunek - 200
+				loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet,20);
+				stillPlaying = false;
 			}
 			else if (sittingField.specialType == 3) {
 				//railway
+				railway(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+				stillPlaying = false;
 			}else if(sittingField.specialType == 4){
 				//szansa
+				chance(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+				stillPlaying = false;
 			}else if(sittingField.specialType == 7){
 				//wiezeinie
+				goToJail(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false, 3);
+				stillPlaying = false;
 			}else if(sittingField.specialType == 8){
-				//oplata za warunek - 200
+				//oplata za warunek - 100
+				loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 10);
+				stillPlaying = false;
 			}
 		}
 		else {
@@ -582,8 +612,140 @@ public:
 
 	}
 
+	void hardLife(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
+		int randomAction = 0; //random
+		if (randomAction == 0) {
+			cout << "W nocy twojemu wyk³adowcy zala³o pokój przez gniazdko elektryczne, i musi odespaæ - idziesz 2 pola do przodu";
+			int next = findPlayerPositionMovingForward(nextPosition, 2);
+			boardPlayersPosition[nextPosition][currentPlayer.id] = -1;
+			boardPlayersPosition[next][currentPlayer.id] = currentPlayer.id;
+			checkField(boardPlayersPosition, boardFields, players, currentPlayer, next, doublet);
+
+		}
+	}
+
+
+	void chance(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
+		int randomAction = 1; //random
+		if (randomAction == 0) {
+			cout << "Podczas nape³niania dmuchanego jacuzzi zala³eœ pokój w akademiku: Kara 10zl" << endl;
+			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet,10);
+		}
+		if (randomAction == 1) {
+			cout << "Piêkna Kelnerka w Mekongu wyda³a ci 5zl za du¿o, s¹ twoje " << endl;
+			players[currentPlayer.id].money = players[currentPlayer.id].money + 5;
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+
+		}
+		if (randomAction == 2) {
+			cout << "Zosta³eœ z³apany bez biletu w autobusie - zaplac 10zl mandatu" << endl;
+			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 10);
+		}
+		if (randomAction == 3) {
+			cout << "Udzielasz korepetycji synowi kole¿anki twojej mamy - pobierz 10" << endl;
+			players[currentPlayer.id].money = players[currentPlayer.id].money + 10;
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+
+		}
+		if (randomAction == 4) {
+			cout << "Op³ata za pokój w akademiku - zap³aæ 20zl " << endl;
+			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 20);
+		}
+		if (randomAction == 5) {
+			cout << "Zebra³eœ astronomiczn¹ iloœæ ¿appsów - pobierz 10zl" << endl;
+			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 10);
+		}
+	}
+
+
+	void railway(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
+		Field sittingField = boardFields[nextPosition];
+
+		if (sittingField.owner != -1) {
+			if (sittingField.owner != currentPlayer.id) {
+
+				int sittingFieldOwnerRailways = 0;
+				if(boardFields[5].owner==sittingField.owner){
+					sittingFieldOwnerRailways = sittingFieldOwnerRailways + 1;
+				}
+				if (boardFields[15].owner == sittingField.owner) {
+					sittingFieldOwnerRailways = sittingFieldOwnerRailways + 1;
+				}
+				if (boardFields[25].owner == sittingField.owner) {
+					sittingFieldOwnerRailways = sittingFieldOwnerRailways + 1;
+				}
+				if (boardFields[35].owner == sittingField.owner) {
+					sittingFieldOwnerRailways = sittingFieldOwnerRailways + 1;
+				}
+
+
+				float cost = sittingField.earnForBuildingsMoney[sittingFieldOwnerRailways];
+				if (currentPlayer.money >= cost) {
+					currentPlayer.money = currentPlayer.money - cost;
+					players[currentPlayer.id].money = players[currentPlayer.id].money - cost;
+					players[sittingField.owner].money = players[sittingField.owner].money + cost;
+
+					nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+
+				}
+				else {
+					notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, cost, sittingField.owner);
+				}
+			}
+			else {
+				nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+
+			}
+
+		}
+		else {
+			if (currentPlayer.money > sittingField.buy) {
+				cout << "Would you like to buy(true/false)? It cost: " << sittingField.buy << endl;
+				string buy;
+				cin >> buy;
+				if (buy == "true") {
+					boardFields[nextPosition].owner = currentPlayer.id;
+					currentPlayer.money = currentPlayer.money - sittingField.buy;
+					players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
+				}
+
+
+
+			}
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+
+		}
+	}
+
+
+
+	void goToJail(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, int stopedRounds){
+		for (int i = 0; i < 40; i++) {
+			if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
+				boardPlayersPosition[i][currentPlayer.id] == -1;
+			}
+			else if (i == 10) {
+				boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id;
+			}
+		}
+		players[currentPlayer.id].stopedRounds = stopedRounds;
+		endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
+
+	}
+
+
+	void loseMoney(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, int money){
+		if(players[currentPlayer.id].money > money){
+			players[currentPlayer.id].money = players[currentPlayer.id].money - money;
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+		}
+		else {
+			notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, money, -1);
+		}
+	}
+
 	void notEnoughtMoney(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet,float money, int ownerId) {
-		cout << "cena: " << money;
+		cout << "cena: " << money<<endl;
 		if (players[currentPlayer.id].money < money) {
 			cout << "Co chcesz zrobiæ?" << endl;
 			cout << "1) Sprzedaj pola" << endl;
@@ -612,8 +774,12 @@ public:
 		}
 		else {
 			cout << "Weszlo w wyjscie"<<endl;
-			players[ownerId].money = players[ownerId].money + money;
-			players[currentPlayer.id].money = players[currentPlayer.id].money - money;
+			if (ownerId != -1) {
+				players[ownerId].money = players[ownerId].money + money;
+			}
+				players[currentPlayer.id].money = players[currentPlayer.id].money - money;
+			
+			
 			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
 
 		}
