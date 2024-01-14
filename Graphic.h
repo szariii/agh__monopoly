@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -20,8 +20,8 @@ public:
 
 	void movePlayer(int propId) {
 		/*
-			Funkcja poruszaj¹ca obiekt gracza na podstawie id pola.
-			Odbywa siê to na podstawie matematycznego obliczenia pozycji.
+			Funkcja poruszajÄ…ca obiekt gracza na podstawie id pola.
+			Odbywa siÄ™ to na podstawie matematycznego obliczenia pozycji.
 		*/
 		const int PROP_WIDTH = 81.5;
 		const int PROP_HEIGHT = 132;

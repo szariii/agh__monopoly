@@ -1,4 +1,4 @@
-//Biblioteki C++
+ï»¿//Biblioteki C++
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
@@ -16,10 +16,10 @@ void Game::initVariables()
 void Game::initWindow()
 {
 	/*
-		Funkcja tworz¹ca okno.
+		Funkcja tworzÄ…ca okno.
 	*/
 
-	//Ustalenie wielkoœci okna programu.
+	//Ustalenie wielkoÅ›ci okna programu.
 	this->videoMode.width = 1000;
 	this->videoMode.height = 1000;
 
@@ -50,7 +50,7 @@ Game::~Game()
 const bool Game::running() const
 {
 	/*
-		Funkcja sprawdzaj¹ca czy okno jest otwarte.
+		Funkcja sprawdzajÄ…ca czy okno jest otwarte.
 	*/
 	return this->window->isOpen();
 }
@@ -59,22 +59,22 @@ const bool Game::running() const
 
 void Game::displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor)
 {
-    const float windowPadding = 20.0f; // sta³a dla wielkoœci odstêpu miêdzy lew¹ a praw¹ krawêdzi¹ okna
-    const float textSpacing = 10.0f; // sta³a dla odstêpu miêdzy tekstem "SZANSA" a g³ównym tekstem
+    const float windowPadding = 20.0f; // staÅ‚a dla wielkoÅ›ci odstÄ™pu miÄ™dzy lewÄ… a prawÄ… krawÄ™dziÄ… okna
+    const float textSpacing = 30.0f; // staÅ‚a dla odstÄ™pu miÄ™dzy tekstem "SZANSA" a gÅ‚Ã³wnym tekstem
 
-    // Rysowanie jasno¿ó³tego okna
+    // Rysowanie jasnoÅ¼Ã³Å‚tego okna
     sf::RectangleShape windowRect(sf::Vector2f(400.f, 200.f));
-    windowRect.setFillColor(sf::Color(255, 255, 153)); // Jasno¿ó³ty kolor
+    windowRect.setFillColor(sf::Color(255, 255, 153)); // JasnoÅ¼Ã³Å‚ty kolor
     windowRect.setPosition(position.x - windowPadding, position.y);
     windowRect.setSize(sf::Vector2f(windowRect.getSize().x + 2 * windowPadding, windowRect.getSize().y));
 
     // Rysowanie ramki okna
     windowRect.setOutlineColor(sf::Color::Black); // Kolor ramki
-    windowRect.setOutlineThickness(5.f); // Gruboœæ ramki
+    windowRect.setOutlineThickness(5.f); // GruboÅ›Ä‡ ramki
 
     this->window->draw(windowRect);
 
-    // Wyœwietlanie tekstu na górze okna
+    // WyÅ›wietlanie tekstu na gÃ³rze okna
     sf::Font font;
     if (!font.loadFromFile("Fonts/arial.ttf"))
     {
@@ -85,31 +85,31 @@ void Game::displayText(const std::string& mainText, const std::string& topText, 
     sf::Text topTextObj;
     topTextObj.setFont(font);
     topTextObj.setString(sf::String::fromUtf8(topText.begin(), topText.end()));
-    topTextObj.setCharacterSize(characterSize);
+    topTextObj.setCharacterSize(24);
     topTextObj.setFillColor(textColor);
 
     // Pogrubienie tekstu
     topTextObj.setStyle(sf::Text::Bold);
 
-    // Ustawienie punktu centralnego dla wyœrodkowania tekstu
+    // Ustawienie punktu centralnego dla wyÅ›rodkowania tekstu
     sf::FloatRect topTextBounds = topTextObj.getLocalBounds();
     topTextObj.setOrigin(topTextBounds.left + topTextBounds.width / 2.0f, topTextBounds.top + topTextBounds.height / 2.0f);
-    topTextObj.setPosition(position.x + windowRect.getSize().x / 2.0f, position.y + windowPadding + topTextBounds.height / 2.0f); // Ustawienie wysokoœci w oparciu o po³owê wysokoœci tekstu
+    topTextObj.setPosition(position.x + windowRect.getSize().x / 2.0f, position.y + windowPadding + topTextBounds.height / 2.0f); // Ustawienie wysokoÅ›ci w oparciu o poÅ‚owÄ™ wysokoÅ›ci tekstu
 
     this->window->draw(topTextObj);
 
-    // Wyœwietlanie g³ównego tekstu wewn¹trz okna
+    // WyÅ›wietlanie gÅ‚Ã³wnego tekstu wewnÄ…trz okna
     sf::Text displayText;
     displayText.setFont(font);
-    displayText.setString(sf::String::fromUtf8(mainText.begin(), mainText.end())); // Konwersja polskich znaków do formatu UTF-8
+    displayText.setString(sf::String::fromUtf8(mainText.begin(), mainText.end())); // Konwersja polskich znakÃ³w do formatu UTF-8
     displayText.setCharacterSize(characterSize);
     displayText.setFillColor(textColor);
 
-    // SprawdŸ, czy tekst przekracza szerokoœæ okna
+    // SprawdÅº, czy tekst przekracza szerokoÅ›Ä‡ okna
     sf::FloatRect textBounds = displayText.getLocalBounds();
     if (textBounds.width > windowRect.getSize().x - 2 * windowPadding)
     {
-        // Jeœli tekst jest zbyt szeroki, podziel go na wiersze
+        // JeÅ›li tekst jest zbyt szeroki, podziel go na wiersze
         std::string wrappedText;
         std::string word;
         std::istringstream stream(mainText);
@@ -134,19 +134,19 @@ void Game::displayText(const std::string& mainText, const std::string& topText, 
         textBounds = displayText.getLocalBounds(); // Zaktualizuj wymiary tekstu
     }
 
-    // Wyœrodkuj g³ówny tekst wewnêtrz okna, uwzglêdniaj¹c odstêp od ramki
+    // WyÅ›rodkuj gÅ‚Ã³wny tekst wewnÄ™trz okna, uwzglÄ™dniajÄ…c odstÄ™p od ramki
     float mainTextXOffset = position.x + windowPadding;
-    float mainTextYOffset = position.y + windowPadding + topTextObj.getGlobalBounds().height + textSpacing; //wysokoœæ topText i odstêp
+    float mainTextYOffset = position.y + windowPadding + topTextObj.getGlobalBounds().height + textSpacing; //wysokoÅ›Ä‡ topText i odstÄ™p
 
     displayText.setPosition(mainTextXOffset, mainTextYOffset);
     this->window->draw(displayText);
 }
 
-//Funkcje g³ówne
+//Funkcje gÅ‚Ã³wne
 void Game::pollEvents()
 {
 	/*
-		Obs³uga zdarzeñ okna.
+		ObsÅ‚uga zdarzeÅ„ okna.
 	*/
 
 	while (this->window->pollEvent(this->event))
@@ -154,7 +154,7 @@ void Game::pollEvents()
 		switch (this->event.type)
 		{
 		case sf::Event::Closed:
-			//Zamkniêcie programu po zamkniêciu okna
+			//ZamkniÄ™cie programu po zamkniÄ™ciu okna
 			this->window->close();
 			break;
 		}
@@ -169,13 +169,13 @@ void Game::update()
 void Game::render()
 {
 	/*
-		Tworzenie obiektów gry.
+		Tworzenie obiektÃ³w gry.
 	*/
 
 	//wczytanie planszy
 	sf::Texture boardTexture;
 	if (!boardTexture.loadFromFile("Textures/board.png")) {
-		// Obs³uga b³êdu ³adowania obrazu
+		// ObsÅ‚uga bÅ‚Ä™du Å‚adowania obrazu
 		// return EXIT_FAILURE;
 	}
 	sf::Sprite boardSprite(boardTexture);
@@ -184,12 +184,12 @@ void Game::render()
 
 	this->window->clear(sf::Color::Cyan);
 
-	//Tu dzia³anie gry
+	//Tu dziaÅ‚anie gry
 	player1.movePlayer(0);
 
 	this->window->draw(boardSprite); //rysowanie planszy
 	this->window->draw(player1.pawn);
-    displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIÊ¯KIE ¯YCIE STUDENTA", sf::Vector2f(100.f, 100.f), 20, sf::Color::Black);
+    displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
 
 
 	this->window->display();

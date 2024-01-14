@@ -1,4 +1,4 @@
-#include <iostream>;
+﻿#include <iostream>;
 #include "Game.h"
 
 using namespace std;
@@ -8,7 +8,7 @@ int main()
     //Inicjalizacja gry.
     Game game;
 
-    //P�tla gry
+    //Pętla gry
     while (game.running())
     {
         game.update();

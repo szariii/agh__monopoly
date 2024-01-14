@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 //Biblioteki SFML
 #include <SFML/Graphics.hpp>
@@ -10,7 +10,7 @@
 #include "Graphic.h"
 
 /*
-	G³ówna klasa gry.
+	GÅ‚Ã³wna klasa gry.
 */
 class Game
 {
@@ -21,25 +21,25 @@ class Game
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
 
-	//T³o
+	//TÅ‚o
 	sf::Texture boardTexture;
 
 	//Funkcje prywatne
-	void initVariables(); //Funkcja inicjuj¹ca zmienne.
-	void initWindow(); //Funkcja tworz¹ca okno aplikacji.
-	void initPlayer(); //Funkcja dodaj¹ca graczy
+	void initVariables(); //Funkcja inicjujÄ…ca zmienne.
+	void initWindow(); //Funkcja tworzÄ…ca okno aplikacji.
+	void initPlayer(); //Funkcja dodajÄ…ca graczy
 
 public:
 	//Konstruktor i destruktor
 	Game();
 	~Game();
 
-	const bool running() const; //Funkcja sprawdzaj¹ca czy gra dzia³a, czy okno jest otwarte.
+	const bool running() const; //Funkcja sprawdzajÄ…ca czy gra dziaÅ‚a, czy okno jest otwarte.
 
-	//G³ówne funkcje
-	void pollEvents(); //Funkcja reaguj¹ca na zdarzenia okna.
-	void update(); //Funkcja aktualizuj¹ca obiekty gry.
-	void render(); //Funkcja tworz¹ca obiekty gry
+	//GÅ‚Ã³wne funkcje
+	void pollEvents(); //Funkcja reagujÄ…ca na zdarzenia okna.
+	void update(); //Funkcja aktualizujÄ…ca obiekty gry.
+	void render(); //Funkcja tworzÄ…ca obiekty gry
 
 	//Funkcje
 	void displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor); // Funkcja karty szansa
