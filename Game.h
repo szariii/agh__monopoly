@@ -42,5 +42,6 @@ public:
 	void render(); //Funkcja tworz¹ca obiekty gry
 
 	//Funkcje
+	void displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor); // Funkcja karty szansa
 };
 
