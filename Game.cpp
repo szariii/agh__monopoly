@@ -1,11 +1,5 @@
-﻿//Biblioteki C++
-#include <cstdlib>
-#include <iostream>
-#include <sstream>
-
-//Pliki klas
+﻿//Pliki klas
 #include "Game.h"
-#include "Graphic.h"
 
 //Funkcje prywatne
 void Game::initVariables()
@@ -30,15 +24,12 @@ void Game::initWindow()
 	this->window->setFramerateLimit(60);
 }
 
-void Game::initPlayer(){
-	
-}
-
 //Konstruktory i destruktory
 Game::Game()
 {
 	this->initVariables();
 	this->initWindow();
+    this->createPlayers(4); //HARDCODE
 }
 
 Game::~Game()
@@ -46,7 +37,6 @@ Game::~Game()
 	delete this->window;
 }
 
-//Pomocnicze funkcje
 const bool Game::running() const
 {
 	/*
@@ -56,10 +46,58 @@ const bool Game::running() const
 }
 
 //Funkcje
+void Game::loadBoardTexture(const std::string& filePath)
+{
+    if (!boardTexture.loadFromFile(filePath))
+    {
+        std::cerr << "Error loading board texture from file: " << filePath << std::endl;
+    }
+
+    boardSprite.setTexture(boardTexture);
+}
+
+void Game::createPlayers(int numPlayers)
+{
+    // Dodaj numPlayers graczy o różnych kolorach i pozycjach startowych
+    for (int i = 0; i < numPlayers; ++i)
+    {
+        sf::Color playerColor;
+
+        //  Przypisanie kolorów dla pierwszych trzech graczy
+        if (i == 0)
+            playerColor = sf::Color::Red;
+        else if (i == 1)
+            playerColor = sf::Color::Green;
+        else if (i == 2)
+            playerColor = sf::Color::Blue;
+        else
+            playerColor = sf::Color::Yellow; // Dla reszty graczy żółty kolor
+
+        sf::Vector2f startPosition;
+        //  Pozycje startowe
+        if(i == 0 || i == 1) {
+            startPosition = sf::Vector2f(885.f + i * 55.f, 890.f);
+        }
+        else if (i == 2 || i == 3) {
+            startPosition = sf::Vector2f(885.f + (i-2) * 55.f, 945.f);
+        }
+        
+        Player player(startPosition, playerColor);
+        players.push_back(player);
+    }
+}
+
+void Game::movePlayer(int playerId, int propId)
+{
+    if (playerId >= 0 && playerId < players.size())
+    {
+        players[playerId].movePlayer(propId);
+    }
+}
 
 void Game::displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor)
 {
-    const float windowPadding = 20.0f; // stała dla wielkości odstępu między lewą a prawą krawędzią okna
+    const float windowPadding = 10.0f; // stała dla wielkości odstępu między lewą a prawą krawędzią okna
     const float textSpacing = 30.0f; // stała dla odstępu między tekstem "SZANSA" a głównym tekstem
 
     // Rysowanie jasnożółtego okna
@@ -142,6 +180,22 @@ void Game::displayText(const std::string& mainText, const std::string& topText, 
     this->window->draw(displayText);
 }
 
+//Funkcje renderujące
+void Game::renderBoard()
+{
+    // Rysuj planszę Monopoly
+    window->draw(boardSprite);
+}
+
+void Game::renderPlayers()
+{
+    // Rysowanie wszystkich graczy
+    for (const auto& player : players)
+    {
+        this->window->draw(player.pawn);
+    }
+}
+
 //Funkcje główne
 void Game::pollEvents()
 {
@@ -164,6 +218,13 @@ void Game::pollEvents()
 void Game::update()
 {
 	this->pollEvents();
+
+    movePlayer(1, 3);
+    movePlayer(1, 13);
+    movePlayer(1, 23);
+    movePlayer(1, 33);
+    //movePlayer(2, 31);
+    //movePlayer(0, 23);
 }
 
 void Game::render()
@@ -173,24 +234,15 @@ void Game::render()
 	*/
 
 	//wczytanie planszy
-	sf::Texture boardTexture;
-	if (!boardTexture.loadFromFile("Textures/board.png")) {
-		// Obsługa błędu ładowania obrazu
-		// return EXIT_FAILURE;
-	}
-	sf::Sprite boardSprite(boardTexture);
-
-	Player player1;
+    loadBoardTexture("Textures/board.png");
 
 	this->window->clear(sf::Color::Cyan);
 
-	//Tu działanie gry
-	player1.movePlayer(0);
+    //wczytywanie elementów gry
+    renderBoard();
+    renderPlayers();
 
-	this->window->draw(boardSprite); //rysowanie planszy
-	this->window->draw(player1.pawn);
     displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
-
 
 	this->window->display();
 }

@@ -6,16 +6,19 @@
 const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 1000;
 
-class Player {
+class Player
+{
 public:
 	sf::CircleShape pawn;  // Pionek gracza
 	sf::Vector2f position; // Aktualna pozycja gracza
+	sf::Color color;       // Kolor gracza
 
 	Player(sf::Vector2f startPos = sf::Vector2f(500.f, 500.f), sf::Color color = sf::Color::Yellow) {
 		pawn.setRadius(20.0f);
 		pawn.setFillColor(color);
 		pawn.setPosition(startPos);
 		position = startPos;
+		this->color = color;
 	}
 
 	void movePlayer(int propId) {
