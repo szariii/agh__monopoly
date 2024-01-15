@@ -19,6 +19,7 @@ class MonopolyLogic {
 
 public:
 	void createBoard() {
+		srand((unsigned)time(NULL));
 		Field boardFieldsTemporary[40] = {};
 		Field boardFields[40] = {};
 
@@ -89,7 +90,7 @@ public:
 			}
 
 			field.buildedHouses = 0;
-			field.owner = 1;
+			field.owner = -1;
 			field.special = false;
 			boardFieldsTemporary[filedIndex] = field;
 			filedIndex = filedIndex + 1;
@@ -143,7 +144,7 @@ public:
 
 
 		Field railroad1;
-		railroad1.owner = 0;
+		railroad1.owner = -1;
 		railroad1.buy = 20;
 		railroad1.earnForBuildingsMoney[1] = 2.5;
 		railroad1.earnForBuildingsMoney[2] = 5;
@@ -224,7 +225,7 @@ public:
 
 
 		Field railroad2;
-		railroad2.owner = 0;
+		railroad2.owner = -1;
 		railroad2.buy = 20;
 		railroad2.id = index;
 		railroad2.name = "dworzec g³ówny Kraków";
@@ -299,7 +300,7 @@ public:
 		commonFieldIndex = commonFieldIndex + 1;
 
 		Field railroad3;
-		railroad3.owner = 0;
+		railroad3.owner = -1;
 		railroad3.buy = 20;
 		railroad3.id = index;
 		railroad3.earnForBuildingsMoney[1] = 2.5;
@@ -375,7 +376,7 @@ public:
 		commonFieldIndex = commonFieldIndex + 1;
 
 		Field railroad4;
-		railroad4.owner = 0;
+		railroad4.owner = -1;
 		railroad4.id = index;
 		railroad4.buy = 20;
 		railroad4.earnForBuildingsMoney[1] = 2.5;
@@ -440,7 +441,7 @@ public:
 			if (countPlayers > i) {
 				PlayerInformations player;
 				player.id = i;
-				player.money = 0;
+				player.money = 150;
 				player.position = 1;
 				player.name = "player";
 				player.stopedRounds = 0;
@@ -462,7 +463,7 @@ public:
 	}
 
 	void startGame(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players) {
-		int startingPlayer = rollDice();
+		int startingPlayer = rollDice()-1;
 		PlayerInformations currentPlayer;
 		int currentPlayerId;
 
@@ -500,8 +501,8 @@ public:
 		}
 		else {
 			cout << "Rzuæ kostk¹ graczu o ID: " << currentPlayer.id << endl;
-			int firstDice = 0;//rollDice();
-			int secondDice = 2;//rollDice();
+			int firstDice = rollDice();
+			int secondDice = rollDice();
 			cout << "pierwsza kostka: " << firstDice << endl;
 			cout << "druga kostka: " << secondDice << endl;
 			int playerPosition;
@@ -613,7 +614,7 @@ public:
 	}
 
 	void hardLife(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
-		int randomAction = 0; //random
+		int randomAction = rollDice()-1; //random
 		if (randomAction == 0) {
 			cout << "W nocy twojemu wyk³adowcy zala³o pokój przez gniazdko elektryczne, i musi odespaæ - idziesz 2 pola do przodu";
 			int next = findPlayerPositionMovingForward(nextPosition, 2);
@@ -622,11 +623,35 @@ public:
 			checkField(boardPlayersPosition, boardFields, players, currentPlayer, next, doublet);
 
 		}
+		if(randomAction==1){
+			cout << "Trafi³eœ na wyk³ad profesora Migasa – stoisz nastêpn¹ turê" <<endl;
+			players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds + 1;
+			endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
+		}
+		if (randomAction == 2) {
+			cout << "Zosta³eœ z³apany przy próbie przemycenia w³asnego alkoholu do Studia. Idziesz na 2 tury do wiêzienia " << endl;
+			goToJail(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false, 2);
+			
+		}
+		if (randomAction == 3) {
+			cout << "Spotka³eœ pani¹ mgr. In¿ Mariê Grzelak. Co prawda nie ruszasz siê z miejsca ale za to masz lepszy humor." << endl;
+			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
+		}
+		if (randomAction == 4) {
+			cout << "Twoja strona z niepopularnymi opiniami dotycz¹cymi dziekana okaza³a siê byæ publiczna. Stoisz dwie kolejki " << endl;
+			players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds + 2;
+			endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
+		}
+		if (randomAction == 5) {
+			cout << "W akademiku zamaraz³y rury z wod¹. Stoisz nastepn¹ kolejkê (Nie pójdziesz przecie¿ na zajêcia nieœwie¿y) " <<endl;
+			players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds + 1;
+			endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
+		}
 	}
 
 
 	void chance(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
-		int randomAction = 1; //random
+		int randomAction = rollDice()-1; //random
 		if (randomAction == 0) {
 			cout << "Podczas nape³niania dmuchanego jacuzzi zala³eœ pokój w akademiku: Kara 10zl" << endl;
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet,10);
@@ -722,10 +747,10 @@ public:
 	void goToJail(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, int stopedRounds){
 		for (int i = 0; i < 40; i++) {
 			if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
-				boardPlayersPosition[i][currentPlayer.id] == -1;
+				boardPlayersPosition[i][currentPlayer.id] = -1;
 			}
 			else if (i == 10) {
-				boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id;
+				boardPlayersPosition[i][currentPlayer.id] = currentPlayer.id;
 			}
 		}
 		players[currentPlayer.id].stopedRounds = stopedRounds;
@@ -1167,9 +1192,8 @@ public:
 
 
 		int rollDice() {
-			//srand(time(NULL));
-			int lb = 1, ub = 6;
-			return (rand() % (ub - lb + 1)) + lb;
+			
+			return (1 + (rand() % 6));
 		}
 
 		void printPlayersInformationsArray(PlayerInformations * players) {
