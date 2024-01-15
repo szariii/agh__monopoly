@@ -180,6 +180,29 @@ void Game::displayText(const std::string& mainText, const std::string& topText, 
     this->window->draw(displayText);
 }
 
+void Game::displayPlayerBalance(int playerId, float balance) {
+    sf::Font font;
+    if (!font.loadFromFile("Fonts/arial.ttf")) {
+        std::cerr << "Error loading font!" << std::endl;
+        return;
+    }
+
+    sf::Text balanceText;
+    balanceText.setFont(font);
+
+    // zaokrąglenie do dwóch miejsc po przecinku
+    std::stringstream balanceStream; 
+    balanceStream << "Gracz " << (playerId + 1) << " - " << std::fixed << std::setprecision(2) << balance << " zł.";
+    balanceText.setString(balanceStream.str());
+
+    balanceText.setCharacterSize(20);
+    balanceText.setFillColor(sf::Color::Black);
+
+    balanceText.setPosition(145.f, 145.f + playerId * 30.f); // Ustawienie pozycji na podstawie id gracza.
+    this->window->draw(balanceText);
+}
+
+
 //Funkcje renderujące
 void Game::renderBoard()
 {
@@ -193,6 +216,12 @@ void Game::renderPlayers()
     for (const auto& player : players)
     {
         this->window->draw(player.pawn);
+    }
+}
+
+void Game::renderPlayerBalance() {
+    for (int i = 0; i < playerNumber; i++) {
+        displayPlayerBalance(i, 150.0f);
     }
 }
 
@@ -241,8 +270,9 @@ void Game::render()
     //wczytywanie elementów gry
     renderBoard();
     renderPlayers();
+    renderPlayerBalance();
 
-    displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
+    //displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
 
 	this->window->display();
 }

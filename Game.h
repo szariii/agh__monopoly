@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <iomanip> 
 
 //Biblioteki SFML
 #include <SFML/Graphics.hpp>
@@ -13,6 +14,10 @@
 
 //Plki klas
 #include "Graphic.h"
+
+//Zmienne globalne
+
+const int playerNumber = 4;
 
 /*
 	Główna klasa gry.
@@ -50,10 +55,12 @@ public:
 	void createPlayers(int numPlayers); // Funkcja tworząca daną liczbę graczy
 	void movePlayer(int playerId, int propId); // Funcja poruszająca gracza o danym id na dane pole
 	void displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor); // Funkcja karty szansa
+	void displayPlayerBalance(int playerId, float balance); // Funkcja wyświetlająca stany kont na ekranie
 
 	//Funkcje renderujące
 	void renderBoard(); // Tworzenie planszy
 	void renderPlayers(); // Tworznie graczy
+	void renderPlayerBalance(); //Tworzenie stanów kont wszystkich graczy
 
 	//Główne funkcje
 	void pollEvents(); //Funkcja reagująca na zdarzenia okna.
