@@ -25,7 +25,7 @@ const int playerNumber = 4;
 class Game
 {
 	//Zmienne
-
+	int hoveredFieldId;
 	sf::Event event;
 
 	//Okno
@@ -56,6 +56,8 @@ public:
 	void movePlayer(int playerId, int propId); // Funcja poruszająca gracza o danym id na dane pole
 	void displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor); // Funkcja karty szansa
 	void displayPlayerBalance(int playerId, float balance); // Funkcja wyświetlająca stany kont na ekranie
+	void handleHover();
+	void displayFieldCard();
 
 	//Funkcje renderujące
 	void renderBoard(); // Tworzenie planszy

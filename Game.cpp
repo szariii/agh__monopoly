@@ -5,6 +5,7 @@
 void Game::initVariables()
 {
 	this->window = nullptr;
+    this->hoveredFieldId = -1; // -1 oznacza, że mysz nie najechała na żadne pole
 }
 
 void Game::initWindow()
@@ -202,6 +203,67 @@ void Game::displayPlayerBalance(int playerId, float balance) {
     this->window->draw(balanceText);
 }
 
+void Game::handleHover()
+{
+    // Pobierz aktualną pozycję myszki względem okna
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+
+    // Ustaw domyślnie brak najechania na pole
+    hoveredFieldId = -1;
+
+    // Sprawdź, czy mysz znajduje się nad polem planszy
+    for (size_t i = 0; i < 40; ++i)
+    {
+        sf::FloatRect fieldRect;
+
+        // Sprawdź, czy mysz znajduje się nad polem planszy
+        if (i >= 1 && i <= 9)
+        {
+            // Pola na dolnej krawędzi
+            fieldRect = sf::FloatRect(787.f - 82.f * (i - 1), 869.f, 82.f, 131.f);
+        }
+        else if (i >= 11 && i <= 19)
+        {
+            // Pola na lewej krawędzi
+            fieldRect = sf::FloatRect(0.f, 787.f - 82.f * (i - 11), 131.f, 82.f);
+        }
+        else if (i >= 21 && i <= 29)
+        {
+            // Pola na górnej krawędzi
+            fieldRect = sf::FloatRect(131.f + 82.f * (i - 21), 0.f, 82.f, 131.f);
+        }
+        else if (i >= 31 && i <= 39)
+        {
+            // Pola na prawej krawędzi
+            fieldRect = sf::FloatRect(869.f, 131.f + 82.f * (i - 31), 131.f, 82.f);
+        }
+        if (i == 2 || i == 7 || i == 12 || i == 17 || i == 22 || i == 28 || i == 33 || i == 17 || i == 36) {
+            fieldRect = sf::FloatRect(0.f, 0.f, 0.f, 0.f);
+        }
+
+        if (fieldRect.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
+        {
+            // Jeżeli mysz jest nad nowym polem, wczytaj karty i zaktualizuj hoveredFieldId
+            hoveredFieldId = i;
+            std::cout << hoveredFieldId << std::endl;
+            break;
+        }
+    }
+
+}
+
+void Game::displayFieldCard()
+{
+    // Sprawdź, czy mysz znajduje się nad polem planszy
+    if (hoveredFieldId != -1)
+    {
+        std::string fieldName = "/* pobierz nazwę pola planszy */";
+        std::string fieldDescription = "/* pobierz opis pola planszy */";
+
+        // Wyświetl kartę z danymi o polu
+        displayText(fieldName, fieldDescription, sf::Vector2f(300.f, 600.f), 20, sf::Color::Black);
+    }
+}
 
 //Funkcje renderujące
 void Game::renderBoard()
@@ -232,15 +294,17 @@ void Game::pollEvents()
 		Obsługa zdarzeń okna.
 	*/
 
-	while (this->window->pollEvent(this->event))
-	{
-		switch (this->event.type)
-		{
-		case sf::Event::Closed:
-			//Zamknięcie programu po zamknięciu okna
-			this->window->close();
-			break;
-		}
+	while (this->window->pollEvent(this->event)) {
+        switch (this->event.type) {
+        case sf::Event::Closed:
+            //Zamknięcie programu po zamknięciu okna
+            this->window->close();
+            break;
+        case sf::Event::MouseMoved:
+            // Obsługa najechania myszką na pole planszy
+            handleHover();
+            break;
+        }
 	}
 }
 
@@ -268,6 +332,7 @@ void Game::render()
     //wczytywanie elementów gry
     renderBoard();
     renderPlayers();
+    displayFieldCard();
     renderPlayerBalance();
 
     //displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
