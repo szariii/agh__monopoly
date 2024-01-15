@@ -248,12 +248,10 @@ void Game::update()
 {
 	this->pollEvents();
 
-    movePlayer(1, 3);
-    movePlayer(1, 13);
-    movePlayer(1, 23);
-    movePlayer(1, 33);
-    //movePlayer(2, 31);
-    //movePlayer(0, 23);
+    movePlayer(0, 31);
+    movePlayer(1, 34);
+    movePlayer(2, 37);
+    movePlayer(3, 39);
 }
 
 void Game::render()

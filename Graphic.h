@@ -26,44 +26,45 @@ public:
 			Funkcja poruszająca obiekt gracza na podstawie id pola.
 			Odbywa się to na podstawie matematycznego obliczenia pozycji.
 		*/
-		const int PROP_WIDTH = 81.5;
-		const int PROP_HEIGHT = 132;
-		const int GO_WIDTH = 135;
+		const int PROP_WIDTH = 82;
+		const int PROP_HEIGHT = 131;
+		const int GO_WIDTH = 131;
 		const int PLAYER_SIZE = 20;
 		int xPos, yPos;
 
 		if (propId == 0) {
-			xPos = SCREEN_WIDTH - GO_WIDTH / 2 - 15;
-			yPos = SCREEN_HEIGHT - GO_WIDTH / 2 - 15;
+			xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PLAYER_SIZE);
+			yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PLAYER_SIZE);
 		}
 
 		else if (propId >= 1 && propId <= 9) {
-			xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PROP_WIDTH * (propId + 1) - PLAYER_SIZE) + 10;
-			yPos = SCREEN_HEIGHT - PROP_HEIGHT / 2 - 10;
+			xPos = SCREEN_WIDTH - (GO_WIDTH + PROP_WIDTH / 2 + PLAYER_SIZE + PROP_WIDTH * (propId - 1));
+			yPos = SCREEN_HEIGHT - (PROP_HEIGHT / 2 + PLAYER_SIZE);
 		}
 		else if (propId == 10) {
-			xPos = GO_WIDTH / 2 - 20;
-			yPos = SCREEN_HEIGHT - GO_WIDTH / 2 - 20;
+			xPos = GO_WIDTH / 2 - PLAYER_SIZE;
+			yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PLAYER_SIZE);
 		}
 		else if (propId >= 11 && propId <= 19) {
-			xPos = 45;
-			yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PROP_WIDTH * (propId - 9) - PLAYER_SIZE) + 10;
+			xPos = GO_WIDTH / 2 - PLAYER_SIZE;
+			yPos = SCREEN_HEIGHT - (GO_WIDTH + PROP_WIDTH/2 + PLAYER_SIZE + PROP_WIDTH * (propId - 11));
 		}
 		else if (propId == 20) {
-			xPos = GO_WIDTH / 2 - 20;
-			yPos = GO_WIDTH / 2 - 20;
+			xPos = GO_WIDTH/2 - PLAYER_SIZE;
+			yPos = GO_WIDTH/2 - PLAYER_SIZE;
 		}
 		else if (propId >= 21 && propId <= 29) {
-			xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PROP_WIDTH * (31 - propId) - PLAYER_SIZE) + 10;
+			xPos = GO_WIDTH + PROP_WIDTH / 2 - PLAYER_SIZE + PROP_WIDTH * (propId - 21);
 			yPos = PROP_HEIGHT / 2 - PLAYER_SIZE;
 		}
 		else if (propId == 30) {
-			xPos = (SCREEN_WIDTH - GO_WIDTH / 2) - 15;
-			yPos = GO_WIDTH / 2 - 20;
+			xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PLAYER_SIZE);
+			yPos = GO_WIDTH / 2 - PLAYER_SIZE;
+			//Może dodać przeniesienie od razu do więzienia
 		}
 		else if (propId >= 31 && propId <= 39) {
-			xPos = (SCREEN_WIDTH - GO_WIDTH / 2) - 15;
-			yPos = (GO_WIDTH / 2 + PROP_WIDTH * (propId - 30)) + 10;
+			xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PLAYER_SIZE);
+			yPos = GO_WIDTH + PROP_WIDTH / 2 - PLAYER_SIZE + PROP_WIDTH * (propId - 31);
 		}
 
 		pawn.setPosition(sf::Vector2f(xPos, yPos));
