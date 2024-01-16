@@ -6,6 +6,11 @@ void GameGraphic::initVariables()
 {
 	this->window = nullptr;
     this->hoveredFieldId = -1; // -1 oznacza, że mysz nie najechała na żadne pole
+    
+    // Inicjalizacja czcionki
+    if (!font.loadFromFile("Fonts/arial.ttf")) {
+        std::cerr << "Error loading font!" << std::endl;
+    }
 }
 
 void GameGraphic::initWindow()
@@ -114,12 +119,6 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     this->window->draw(windowRect);
 
     // Wyświetlanie tekstu na górze okna
-    sf::Font font;
-    if (!font.loadFromFile("Fonts/arial.ttf"))
-    {
-        std::cerr << "Error loading font!" << std::endl;
-        return;
-    }
 
     sf::Text topTextObj;
     topTextObj.setFont(font);
@@ -181,27 +180,30 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     this->window->draw(displayText);
 }
 
-void GameGraphic::displayPlayerBalance() {
-    sf::Font font;
-    if (!font.loadFromFile("Fonts/arial.ttf")) {
-        std::cerr << "Error loading font!" << std::endl;
-        return;
+void GameGraphic::displayPlayerAccounts()
+{
+    // Wyświetl stan konta każdego gracza na ekranie
+
+    sf::Text accountText;
+    accountText.setFont(font);
+    accountText.setCharacterSize(20);
+    accountText.setFillColor(sf::Color::Black);
+
+    for (size_t i = 0; i < playerAccounts.size(); ++i)
+    {
+        accountText.setString("Player " + std::to_string(i + 1) + " Account: $" + std::to_string(playerAccounts[i]));
+        accountText.setPosition(145.f, 145.f + i * 30.f);
+        window->draw(accountText);
     }
+}
 
-    balanceText.setFont(font);
-
-    // zaokrąglenie do dwóch miejsc po przecinku
-    std::stringstream balanceStream;
-    for (int i = 0; i < playerNumber; i++) {
-        balanceStream << "Gracz " << (i + 1) << " - " << std::fixed << std::setprecision(2) << 150.f << " zł.\n";
-        balanceText.setString(balanceStream.str());
+void GameGraphic::updatePlayerAccount(int playerId, float amount)
+{
+    // Aktualizuj stan konta danego gracza
+    if (playerId >= 0 && static_cast<size_t>(playerId) < playerAccounts.size())
+    {
+        playerAccounts[playerId] += amount;
     }
-
-    balanceText.setCharacterSize(20);
-    balanceText.setFillColor(sf::Color::Black);
-
-    balanceText.setPosition(145.f, 145.f); // Ustawienie pozycji na podstawie id gracza.
-    //this->window->draw(balanceText);
 }
 
 void GameGraphic::handleHover()
@@ -282,10 +284,6 @@ void GameGraphic::renderPlayers()
     }
 }
 
-void GameGraphic::renderPlayerBalance() {
-    this->window->draw(balanceText);
-}
-
 //Funkcje główne
 void GameGraphic::pollEvents()
 {
@@ -331,8 +329,6 @@ void GameGraphic::render()
     //wczytywanie elementów gry
     renderBoard();
     renderPlayers();
-    displayFieldCard();
-    renderPlayerBalance();
 
     //displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
 

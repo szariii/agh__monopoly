@@ -596,7 +596,6 @@ public:
 						players[currentPlayer.id].money = players[currentPlayer.id].money - cost;
 						players[sittingField.owner].money = players[sittingField.owner].money + cost;
 
-
 					}
 					else {
 						notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, cost, sittingField.owner);

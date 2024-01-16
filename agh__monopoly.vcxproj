@@ -142,13 +142,13 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="main.cpp" />
-	  <ClCompile Include="Field.h" />
-	  <ClCompile Include="MonopolyLogic.h" />
-	  <ClInclude Include="PlayerInformations.h" />
+    <ClCompile Include="Field.h" />
+    <ClCompile Include="MonopolyLogic.h" />
+    <ClInclude Include="PlayerInformations.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Graphic.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
