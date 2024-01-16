@@ -2,13 +2,13 @@
 #include "Game.h"
 
 //Funkcje prywatne
-void Game::initVariables()
+void GameGraphic::initVariables()
 {
 	this->window = nullptr;
     this->hoveredFieldId = -1; // -1 oznacza, że mysz nie najechała na żadne pole
 }
 
-void Game::initWindow()
+void GameGraphic::initWindow()
 {
 	/*
 		Funkcja tworząca okno.
@@ -26,19 +26,19 @@ void Game::initWindow()
 }
 
 //Konstruktory i destruktory
-Game::Game()
+GameGraphic::GameGraphic()
 {
 	this->initVariables();
 	this->initWindow();
     this->createPlayers(4); //HARDCODE
 }
 
-Game::~Game()
+GameGraphic::~GameGraphic()
 {
 	delete this->window;
 }
 
-const bool Game::running() const
+const bool GameGraphic::running() const
 {
 	/*
 		Funkcja sprawdzająca czy okno jest otwarte.
@@ -47,7 +47,7 @@ const bool Game::running() const
 }
 
 //Funkcje
-void Game::loadBoardTexture(const std::string& filePath)
+void GameGraphic::loadBoardTexture(const std::string& filePath)
 {
     if (!boardTexture.loadFromFile(filePath))
     {
@@ -57,7 +57,7 @@ void Game::loadBoardTexture(const std::string& filePath)
     boardSprite.setTexture(boardTexture);
 }
 
-void Game::createPlayers(int numPlayers)
+void GameGraphic::createPlayers(int numPlayers)
 {
     // Dodaj numPlayers graczy o różnych kolorach i pozycjach startowych
     for (int i = 0; i < numPlayers; ++i)
@@ -88,7 +88,7 @@ void Game::createPlayers(int numPlayers)
     }
 }
 
-void Game::movePlayer(int playerId, int propId)
+void GameGraphic::movePlayer(int playerId, int propId)
 {
     if (playerId >= 0 && playerId < players.size())
     {
@@ -96,7 +96,7 @@ void Game::movePlayer(int playerId, int propId)
     }
 }
 
-void Game::displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor)
+void GameGraphic::displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor)
 {
     const float windowPadding = 10.0f; // stała dla wielkości odstępu między lewą a prawą krawędzią okna
     const float textSpacing = 30.0f; // stała dla odstępu między tekstem "SZANSA" a głównym tekstem
@@ -181,7 +181,7 @@ void Game::displayText(const std::string& mainText, const std::string& topText, 
     this->window->draw(displayText);
 }
 
-void Game::displayPlayerBalance(int playerId, float balance) {
+void GameGraphic::displayPlayerBalance(int playerId, float balance) {
     sf::Font font;
     if (!font.loadFromFile("Fonts/arial.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
@@ -203,7 +203,7 @@ void Game::displayPlayerBalance(int playerId, float balance) {
     this->window->draw(balanceText);
 }
 
-void Game::handleHover()
+void GameGraphic::handleHover()
 {
     // Pobierz aktualną pozycję myszki względem okna
     sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
@@ -252,7 +252,7 @@ void Game::handleHover()
 
 }
 
-void Game::displayFieldCard()
+void GameGraphic::displayFieldCard()
 {
     // Sprawdź, czy mysz znajduje się nad polem planszy
     if (hoveredFieldId != -1)
@@ -266,13 +266,13 @@ void Game::displayFieldCard()
 }
 
 //Funkcje renderujące
-void Game::renderBoard()
+void GameGraphic::renderBoard()
 {
     // Rysuj planszę Monopoly
     window->draw(boardSprite);
 }
 
-void Game::renderPlayers()
+void GameGraphic::renderPlayers()
 {
     // Rysowanie wszystkich graczy
     for (const auto& player : players)
@@ -281,14 +281,14 @@ void Game::renderPlayers()
     }
 }
 
-void Game::renderPlayerBalance() {
+void GameGraphic::renderPlayerBalance() {
     for (int i = 0; i < playerNumber; i++) {
         displayPlayerBalance(i, 150.0f);
     }
 }
 
 //Funkcje główne
-void Game::pollEvents()
+void GameGraphic::pollEvents()
 {
 	/*
 		Obsługa zdarzeń okna.
@@ -308,7 +308,7 @@ void Game::pollEvents()
 	}
 }
 
-void Game::update()
+void GameGraphic::update()
 {
 	this->pollEvents();
 
@@ -318,7 +318,7 @@ void Game::update()
     movePlayer(3, 39);
 }
 
-void Game::render()
+void GameGraphic::render()
 {
 	/*
 		Tworzenie obiektów gry.

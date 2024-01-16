@@ -22,7 +22,7 @@ const int playerNumber = 4;
 /*
 	Główna klasa gry.
 */
-class Game
+class GameGraphic
 {
 	//Zmienne
 	int hoveredFieldId;
@@ -45,8 +45,8 @@ class Game
 
 public:
 	//Konstruktor i destruktor
-	Game();
-	~Game();
+	GameGraphic();
+	~GameGraphic();
 
 	const bool running() const; //Funkcja sprawdzająca czy gra działa, czy okno jest otwarte.
 
