@@ -137,6 +137,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+
+    <ClCompile Include="Field.h" />
+    <ClCompile Include="MonopolyLogic.h" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PlayerInformations.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data.txt" />
+    <Text Include="opis_data.txt" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="main.cpp" />
