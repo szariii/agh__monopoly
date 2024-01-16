@@ -30,7 +30,7 @@ GameGraphic::GameGraphic()
 {
 	this->initVariables();
 	this->initWindow();
-    this->createPlayers(4); //HARDCODE
+    this->createPlayers(playerNumber);
 }
 
 GameGraphic::~GameGraphic()
@@ -92,11 +92,11 @@ void GameGraphic::movePlayer(int playerId, int propId)
 {
     if (playerId >= 0 && playerId < players.size())
     {
-        players[playerId].movePlayer(propId);
+        players[playerId].movePlayer(playerId, propId);
     }
 }
 
-void GameGraphic::displayText(const std::string& mainText, const std::string& topText, const sf::Vector2f& position, unsigned int characterSize, const sf::Color& textColor)
+void GameGraphic::displayText(const std::string& mainText, const std::string& topText)
 {
     const float windowPadding = 10.0f; // stała dla wielkości odstępu między lewą a prawą krawędzią okna
     const float textSpacing = 30.0f; // stała dla odstępu między tekstem "SZANSA" a głównym tekstem
@@ -104,7 +104,7 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     // Rysowanie jasnożółtego okna
     sf::RectangleShape windowRect(sf::Vector2f(400.f, 200.f));
     windowRect.setFillColor(sf::Color(255, 255, 153)); // Jasnożółty kolor
-    windowRect.setPosition(position.x - windowPadding, position.y);
+    windowRect.setPosition(300.f - windowPadding, 400.f);
     windowRect.setSize(sf::Vector2f(windowRect.getSize().x + 2 * windowPadding, windowRect.getSize().y));
 
     // Rysowanie ramki okna
@@ -125,7 +125,7 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     topTextObj.setFont(font);
     topTextObj.setString(sf::String::fromUtf8(topText.begin(), topText.end()));
     topTextObj.setCharacterSize(24);
-    topTextObj.setFillColor(textColor);
+    topTextObj.setFillColor(sf::Color::Black);
 
     // Pogrubienie tekstu
     topTextObj.setStyle(sf::Text::Bold);
@@ -133,7 +133,7 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     // Ustawienie punktu centralnego dla wyśrodkowania tekstu
     sf::FloatRect topTextBounds = topTextObj.getLocalBounds();
     topTextObj.setOrigin(topTextBounds.left + topTextBounds.width / 2.0f, topTextBounds.top + topTextBounds.height / 2.0f);
-    topTextObj.setPosition(position.x + windowRect.getSize().x / 2.0f, position.y + windowPadding + topTextBounds.height / 2.0f); // Ustawienie wysokości w oparciu o połowę wysokości tekstu
+    topTextObj.setPosition(300.f + windowRect.getSize().x / 2.0f, 400.f + windowPadding + topTextBounds.height / 2.0f); // Ustawienie wysokości w oparciu o połowę wysokości tekstu
 
     this->window->draw(topTextObj);
 
@@ -141,8 +141,8 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     sf::Text displayText;
     displayText.setFont(font);
     displayText.setString(sf::String::fromUtf8(mainText.begin(), mainText.end())); // Konwersja polskich znaków do formatu UTF-8
-    displayText.setCharacterSize(characterSize);
-    displayText.setFillColor(textColor);
+    displayText.setCharacterSize(20);
+    displayText.setFillColor(sf::Color::Black);
 
     // Sprawdź, czy tekst przekracza szerokość okna
     sf::FloatRect textBounds = displayText.getLocalBounds();
@@ -174,33 +174,34 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     }
 
     // Wyśrodkuj główny tekst wewnętrz okna, uwzględniając odstęp od ramki
-    float mainTextXOffset = position.x + windowPadding;
-    float mainTextYOffset = position.y + windowPadding + topTextObj.getGlobalBounds().height + textSpacing; //wysokość topText i odstęp
+    float mainTextXOffset = 300.f + windowPadding;
+    float mainTextYOffset = 400.f + windowPadding + topTextObj.getGlobalBounds().height + textSpacing; //wysokość topText i odstęp
 
     displayText.setPosition(mainTextXOffset, mainTextYOffset);
     this->window->draw(displayText);
 }
 
-void GameGraphic::displayPlayerBalance(int playerId, float balance) {
+void GameGraphic::displayPlayerBalance() {
     sf::Font font;
     if (!font.loadFromFile("Fonts/arial.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
         return;
     }
 
-    sf::Text balanceText;
     balanceText.setFont(font);
 
     // zaokrąglenie do dwóch miejsc po przecinku
-    std::stringstream balanceStream; 
-    balanceStream << "Gracz " << (playerId + 1) << " - " << std::fixed << std::setprecision(2) << balance << " zł.";
-    balanceText.setString(balanceStream.str());
+    std::stringstream balanceStream;
+    for (int i = 0; i < playerNumber; i++) {
+        balanceStream << "Gracz " << (i + 1) << " - " << std::fixed << std::setprecision(2) << 150.f << " zł.\n";
+        balanceText.setString(balanceStream.str());
+    }
 
     balanceText.setCharacterSize(20);
     balanceText.setFillColor(sf::Color::Black);
 
-    balanceText.setPosition(145.f, 145.f + playerId * 30.f); // Ustawienie pozycji na podstawie id gracza.
-    this->window->draw(balanceText);
+    balanceText.setPosition(145.f, 145.f); // Ustawienie pozycji na podstawie id gracza.
+    //this->window->draw(balanceText);
 }
 
 void GameGraphic::handleHover()
@@ -261,7 +262,7 @@ void GameGraphic::displayFieldCard()
         std::string fieldDescription = "/* pobierz opis pola planszy */";
 
         // Wyświetl kartę z danymi o polu
-        displayText(fieldName, fieldDescription, sf::Vector2f(300.f, 600.f), 20, sf::Color::Black);
+        displayText(fieldName, fieldDescription);
     }
 }
 
@@ -282,9 +283,7 @@ void GameGraphic::renderPlayers()
 }
 
 void GameGraphic::renderPlayerBalance() {
-    for (int i = 0; i < playerNumber; i++) {
-        displayPlayerBalance(i, 150.0f);
-    }
+    this->window->draw(balanceText);
 }
 
 //Funkcje główne
@@ -312,10 +311,10 @@ void GameGraphic::update()
 {
 	this->pollEvents();
 
-    movePlayer(0, 31);
-    movePlayer(1, 34);
-    movePlayer(2, 37);
-    movePlayer(3, 39);
+    //movePlayer(0, 31);
+    //movePlayer(1, 34);
+    //movePlayer(2, 37);
+    //movePlayer(3, 39);
 }
 
 void GameGraphic::render()

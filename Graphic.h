@@ -21,7 +21,7 @@ public:
 		this->color = color;
 	}
 
-	void movePlayer(int propId) {
+	void movePlayer(int playerId, int propId) {
 		/*
 			Funkcja poruszająca obiekt gracza na podstawie id pola.
 			Odbywa się to na podstawie matematycznego obliczenia pozycji.
@@ -58,15 +58,22 @@ public:
 			yPos = PROP_HEIGHT / 2 - PLAYER_SIZE;
 		}
 		else if (propId == 30) {
-			xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PLAYER_SIZE);
-			yPos = GO_WIDTH / 2 - PLAYER_SIZE;
-			//Może dodać przeniesienie od razu do więzienia
+			//xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PLAYER_SIZE);
+			//yPos = GO_WIDTH / 2 - PLAYER_SIZE;
+			
+			//Przeniesienie od razu do więzienia
+			xPos = GO_WIDTH / 2 - PLAYER_SIZE + 15;
+			yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PLAYER_SIZE + 15);
 		}
 		else if (propId >= 31 && propId <= 39) {
 			xPos = SCREEN_WIDTH - (GO_WIDTH / 2 + PLAYER_SIZE);
 			yPos = GO_WIDTH + PROP_WIDTH / 2 - PLAYER_SIZE + PROP_WIDTH * (propId - 31);
 		}
+		else if (propId == 90) {
+			xPos = GO_WIDTH / 2 - PLAYER_SIZE + 15;
+			yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PLAYER_SIZE + 15);
+		}
 
-		pawn.setPosition(sf::Vector2f(xPos, yPos));
+		pawn.setPosition(sf::Vector2f(xPos, yPos+(playerId*2)));
 	}
 };

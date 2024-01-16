@@ -29,7 +29,6 @@ public:
 		while (game.running())
 		{
 			game.update();
-
 			game.render();
 
 
@@ -530,6 +529,11 @@ public:
 			int nextPosition = findPlayerPositionMovingForward(playerPosition, firstDice + secondDice);
 			cout << "rolled fields: " << firstDice + secondDice << endl;
 			cout << "nextPosition: " << nextPosition << endl;
+
+			//Ruszanie gracza
+			game.movePlayer(currentPlayer.id, nextPosition);
+			game.render();
+			
 			boardPlayersPosition[nextPosition][currentPlayer.id] = currentPlayer.id;
 			//printPlayersPlaces(boardPlayersPosition);
 			if (firstDice == secondDice) {
@@ -611,9 +615,8 @@ public:
 						currentPlayer.money = currentPlayer.money - sittingField.buy;
 						players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
 					}
-
-
-
+					//game.displayPlayerBalance();
+					//game.render();
 				}
 			}
 
@@ -636,7 +639,8 @@ public:
 			boardPlayersPosition[nextPosition][currentPlayer.id] = -1;
 			boardPlayersPosition[next][currentPlayer.id] = currentPlayer.id;
 			checkField(boardPlayersPosition, boardFields, players, currentPlayer, next, doublet);
-
+			game.movePlayer(currentPlayer.id, next);
+			game.render();
 		}
 		if(randomAction==1){
 			cout << "Trafi³eœ na wyk³ad profesora Migasa – stoisz nastêpn¹ turê" <<endl;
@@ -646,7 +650,8 @@ public:
 		if (randomAction == 2) {
 			cout << "Zosta³eœ z³apany przy próbie przemycenia w³asnego alkoholu do Studia. Idziesz na 2 tury do wiêzienia " << endl;
 			goToJail(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false, 2);
-			
+			game.movePlayer(currentPlayer.id, 90);
+			game.render();
 		}
 		if (randomAction == 3) {
 			cout << "Spotka³eœ pani¹ mgr. In¿ Mariê Grzelak. Co prawda nie ruszasz siê z miejsca ale za to masz lepszy humor." << endl;
