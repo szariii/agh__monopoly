@@ -31,19 +31,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data.txt">
-      <Filter>Pliki źródłowe</Filter>
-    </Text>
-    <Text Include="opis_data.txt">
-      <Filter>Pliki źródłowe</Filter>
-    </Text>
     <ClCompile Include="main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>

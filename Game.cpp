@@ -308,8 +308,8 @@ void GameGraphic::displayPlayerBalances()
 {
     sf::Text balancesTitle;
     balancesTitle.setFont(font);
-    balancesTitle.setString("Balances:");
-    balancesTitle.setCharacterSize(20);
+    balancesTitle.setString("Stan konta:");
+    balancesTitle.setCharacterSize(24);
     balancesTitle.setFillColor(sf::Color::Black);
     balancesTitle.setPosition(140.f, 140.f);
 
@@ -321,12 +321,12 @@ void GameGraphic::displayPlayerBalances()
         playerBalanceText.setFont(font);
 
         std::ostringstream balanceStream;
-        balanceStream << "Player " << i + 1 << ": " << std::fixed << std::setprecision(2) << playerBalances[i] << " zl";
+        balanceStream << "Gracz " << i + 1 << ": " << std::fixed << std::setprecision(2) << playerBalances[i] << " zl";
 
         playerBalanceText.setString(balanceStream.str());
-        playerBalanceText.setCharacterSize(16);
+        playerBalanceText.setCharacterSize(19);
         playerBalanceText.setFillColor(players[i].color);
-        playerBalanceText.setPosition(140.f, 170.f + i * 30.f);
+        playerBalanceText.setPosition(140.f, 172.f + i * 32.f);
 
         this->window->draw(playerBalanceText);
     }
