@@ -43,6 +43,9 @@ class GameGraphic
 	//Pionki
 	std::vector<Player> players; //Wektor przechowujący pionki graczy
 
+	std::vector<sf::RectangleShape> fieldRectangles; //Własność pól
+	std::vector<sf::Color> fieldColors; //Kolory pól
+	
 	std::vector<float> playerAccounts; // Stany kont graczy
 
 	//Funkcje prywatne
@@ -65,10 +68,13 @@ public:
 	void updatePlayerAccount(int playerId, float amount = 150.0f); // Domyślna wartość dla kwoty
 	void handleHover();
 	void displayFieldCard();
+	void displayFieldOwner();
+	void setFieldColor(int fieldId, int playerId);
 
 	//Funkcje renderujące
 	void renderBoard(); // Tworzenie planszy
 	void renderPlayers(); // Tworznie graczy
+	void renderFieldOwnerColor(); //Zmiana kolorów
 
 	//Główne funkcje
 	void pollEvents(); //Funkcja reagująca na zdarzenia okna.

@@ -614,8 +614,9 @@ public:
 						currentPlayer.money = currentPlayer.money - sittingField.buy;
 						players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
 					}
+					game.setFieldColor(nextPosition, currentPlayer.id);
 					//game.displayPlayerBalance();
-					//game.render();
+					game.render();
 				}
 			}
 
@@ -858,7 +859,7 @@ public:
 			cout << "4) Zakoñcz turê" << endl;
 		}
 
-		printPlayersInformations(currentPlayer);
+		printPlayersInformations(players[currentPlayer.id]);
 
 		int choosenAction;
 
@@ -1127,6 +1128,8 @@ public:
 		if (choosenAction) {
 				players[currentPlayer.id].money = players[currentPlayer.id].money + boardFields[selectdValue].buy;
 				boardFields[selectdValue].owner = -1;
+				game.setFieldColor(selectdValue, -1);
+				game.render();
 		}
 		
 		if (notEnoughtMoneyBool) {

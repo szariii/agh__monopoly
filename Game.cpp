@@ -11,6 +11,14 @@ void GameGraphic::initVariables()
     if (!font.loadFromFile("Fonts/arial.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
     }
+
+    //Inicjalizacja własności pól
+    fieldRectangles.resize(40);
+    for (int i = 0; i < 40; ++i) {
+        fieldRectangles[i].setSize(sf::Vector2f(20.f, 20.f)); // Rozmiar prostokąta
+        fieldRectangles[i].setFillColor(sf::Color::Transparent);    // Biały kolor prostokąta
+    }
+    fieldColors.resize(40, sf::Color::Transparent);
 }
 
 void GameGraphic::initWindow()
@@ -76,8 +84,10 @@ void GameGraphic::createPlayers(int numPlayers)
             playerColor = sf::Color::Green;
         else if (i == 2)
             playerColor = sf::Color::Blue;
+        else if (i == 3)
+            playerColor = sf::Color::Yellow;
         else
-            playerColor = sf::Color::Yellow; // Dla reszty graczy żółty kolor
+            playerColor = sf::Color::Black;
 
         sf::Vector2f startPosition;
         //  Pozycje startowe
@@ -268,9 +278,50 @@ void GameGraphic::displayFieldCard()
     }
 }
 
+void GameGraphic::displayFieldOwner() {
+    for (size_t i = 0; i < fieldRectangles.size(); ++i) {
+        // Ustaw pozycję i rozmiar prostokąta nad polem
+        fieldRectangles[i].setPosition(sf::Vector2f(0.f, 0.f));
+
+        if (i >= 1 && i <= 9) {
+            // Pola na dolnej krawędzi
+            fieldRectangles[i].setSize(sf::Vector2f(82.f, 6.f));
+            fieldRectangles[i].setPosition(787.f - 82.f * (i - 1), 869.f - 6.f);
+        }
+        else if (i >= 11 && i <= 19) {
+            // Pola na lewej krawędzi
+            fieldRectangles[i].setSize(sf::Vector2f(6.f, 82.f));
+            fieldRectangles[i].setPosition(131.f, 787.f - 82.f * (i - 11));
+        }
+        else if (i >= 21 && i <= 29) {
+            // Pola na górnej krawędzi
+            fieldRectangles[i].setSize(sf::Vector2f(82.f, 6.f));
+            fieldRectangles[i].setPosition(131.f + 82.f * (i - 21), 131.f);
+        }
+        else if (i >= 31 && i <= 39) {
+            // Pola na prawej krawędzi
+            fieldRectangles[i].setSize(sf::Vector2f(6.f, 82.f));
+            fieldRectangles[i].setPosition(869.f - 6.f, 131.f + 82.f * (i - 31));
+        }
+        if (i == 2 || i == 4|| i == 7 || i == 12 || i == 17 || i == 22 || i == 28 || i == 33 || i == 17 || i == 36 || i == 38) {
+            fieldRectangles[i].setSize(sf::Vector2f(0, 0));
+        }
+
+        window->draw(fieldRectangles[i]);
+    }
+}
+
+void GameGraphic::setFieldColor(int fieldId, int playerId) {
+    if (fieldId >= 0 && fieldId < static_cast<int>(fieldColors.size()) && playerId == -1) {
+        fieldColors[fieldId] = sf::Color::Transparent;
+    }
+    if (fieldId >= 0 && fieldId < static_cast<int>(fieldColors.size()) && playerId >= 0 && playerId < playerNumber) {
+        fieldColors[fieldId] = players[playerId].color;
+    }
+}
+
 //Funkcje renderujące
-void GameGraphic::renderBoard()
-{
+void GameGraphic::renderBoard() {
     // Rysuj planszę Monopoly
     window->draw(boardSprite);
 }
@@ -281,6 +332,13 @@ void GameGraphic::renderPlayers()
     for (const auto& player : players)
     {
         this->window->draw(player.pawn);
+    }
+}
+
+void GameGraphic::renderFieldOwnerColor() {
+    for (size_t i = 0; i < fieldRectangles.size(); ++i)
+    {
+        fieldRectangles[i].setFillColor(fieldColors[i]);
     }
 }
 
@@ -329,7 +387,8 @@ void GameGraphic::render()
     //wczytywanie elementów gry
     renderBoard();
     renderPlayers();
-
+    renderFieldOwnerColor();
+    displayFieldOwner();
     //displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
 
 	this->window->display();
