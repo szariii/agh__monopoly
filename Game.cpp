@@ -190,32 +190,6 @@ void GameGraphic::displayText(const std::string& mainText, const std::string& to
     this->window->draw(displayText);
 }
 
-void GameGraphic::displayPlayerAccounts()
-{
-    // Wyświetl stan konta każdego gracza na ekranie
-
-    sf::Text accountText;
-    accountText.setFont(font);
-    accountText.setCharacterSize(20);
-    accountText.setFillColor(sf::Color::Black);
-
-    for (size_t i = 0; i < playerAccounts.size(); ++i)
-    {
-        accountText.setString("Player " + std::to_string(i + 1) + " Account: $" + std::to_string(playerAccounts[i]));
-        accountText.setPosition(145.f, 145.f + i * 30.f);
-        window->draw(accountText);
-    }
-}
-
-void GameGraphic::updatePlayerAccount(int playerId, float amount)
-{
-    // Aktualizuj stan konta danego gracza
-    if (playerId >= 0 && static_cast<size_t>(playerId) < playerAccounts.size())
-    {
-        playerAccounts[playerId] += amount;
-    }
-}
-
 void GameGraphic::handleHover()
 {
     // Pobierz aktualną pozycję myszki względem okna
@@ -385,10 +359,11 @@ void GameGraphic::render()
 	this->window->clear(sf::Color::Cyan);
 
     //wczytywanie elementów gry
-    renderBoard();
-    renderPlayers();
-    renderFieldOwnerColor();
-    displayFieldOwner();
+    renderBoard(); //Plansza
+    renderPlayers(); //Gracze
+    renderFieldOwnerColor(); //Nadaje polom kolory
+    displayFieldOwner(); //Wyświetla kolory kupionych pól
+
     //displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
 
 	this->window->display();

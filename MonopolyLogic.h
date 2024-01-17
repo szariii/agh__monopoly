@@ -448,10 +448,10 @@ public:
 			}
 		}
 
-		int countPlayers = 5;
+		int countPlayers = 4;
 
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6	; i++) {
 			if (countPlayers > i) {
 				PlayerInformations player;
 				player.id = i;
