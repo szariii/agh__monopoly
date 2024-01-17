@@ -615,7 +615,6 @@ public:
 						players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
 					}
 					game.setFieldColor(nextPosition, currentPlayer.id);
-					//game.displayPlayerBalance();
 					game.render();
 				}
 			}
@@ -752,6 +751,8 @@ public:
 					boardFields[nextPosition].owner = currentPlayer.id;
 					currentPlayer.money = currentPlayer.money - sittingField.buy;
 					players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
+					game.setFieldColor(nextPosition, currentPlayer.id);
+					game.render();
 				}
 
 
