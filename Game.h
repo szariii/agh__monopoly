@@ -47,6 +47,8 @@ class GameGraphic
 	std::vector<sf::RectangleShape> fieldRectangles; //Własność pól
 	std::vector<sf::Color> fieldColors; //Kolory pól
 	
+	//Stany konta
+	std::vector<float> playerBalances;  // Stany konta graczy
 
 	//Funkcje prywatne
 	void initVariables(); //Funkcja inicjująca zmienne.
@@ -63,11 +65,18 @@ public:
 	void loadBoardTexture(const std::string& filePath);
 	void createPlayers(int numPlayers); // Funkcja tworząca daną liczbę graczy
 	void movePlayer(int playerId, int propId); // Funcja poruszająca gracza o danym id na dane pole
+
 	void displayText(const std::string& mainText, const std::string& topText); // Funkcja karty szansa
+
 	void handleHover();
 	void displayFieldCard();
+
 	void displayFieldOwner();
 	void setFieldColor(int fieldId, int playerId);
+
+	void updatePlayerBalance(int playerId, float newBalance);
+	void displayPlayerBalances();
+	void minusPlayerBalance(int playerId, float newBalance);
 
 	//Funkcje renderujące
 	void renderBoard(); // Tworzenie planszy

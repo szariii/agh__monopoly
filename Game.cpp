@@ -19,6 +19,9 @@ void GameGraphic::initVariables()
         fieldRectangles[i].setFillColor(sf::Color::Transparent);    // Biały kolor prostokąta
     }
     fieldColors.resize(40, sf::Color::Transparent);
+
+    //Stany konta
+    playerBalances.resize(playerNumber, 150.f);
 }
 
 void GameGraphic::initWindow()
@@ -81,11 +84,11 @@ void GameGraphic::createPlayers(int numPlayers)
         if (i == 0)
             playerColor = sf::Color::Red;
         else if (i == 1)
-            playerColor = sf::Color::Green;
+            playerColor = sf::Color(150,75,0);
         else if (i == 2)
             playerColor = sf::Color::Blue;
         else if (i == 3)
-            playerColor = sf::Color::Yellow;
+            playerColor = sf::Color::Magenta;
         else
             playerColor = sf::Color::Black;
 
@@ -294,6 +297,48 @@ void GameGraphic::setFieldColor(int fieldId, int playerId) {
     }
 }
 
+void GameGraphic::updatePlayerBalance(int playerId, float newBalance){
+    if (playerId >= 0 && playerId < playerNumber)
+    {
+        playerBalances[playerId] = newBalance;
+    }
+}
+
+void GameGraphic::displayPlayerBalances()
+{
+    sf::Text balancesTitle;
+    balancesTitle.setFont(font);
+    balancesTitle.setString("Balances:");
+    balancesTitle.setCharacterSize(20);
+    balancesTitle.setFillColor(sf::Color::Black);
+    balancesTitle.setPosition(140.f, 140.f);
+
+    this->window->draw(balancesTitle);
+
+    for (int i = 0; i < playerNumber; ++i)
+    {
+        sf::Text playerBalanceText;
+        playerBalanceText.setFont(font);
+
+        std::ostringstream balanceStream;
+        balanceStream << "Player " << i + 1 << ": " << std::fixed << std::setprecision(2) << playerBalances[i] << " zl";
+
+        playerBalanceText.setString(balanceStream.str());
+        playerBalanceText.setCharacterSize(16);
+        playerBalanceText.setFillColor(players[i].color);
+        playerBalanceText.setPosition(140.f, 170.f + i * 30.f);
+
+        this->window->draw(playerBalanceText);
+    }
+}
+
+void GameGraphic::minusPlayerBalance(int playerId, float newBalance) {
+    if (playerId >= 0 && playerId < playerNumber)
+    {
+        playerBalances[playerId] = playerBalances[playerId] - newBalance;
+    }
+}
+
 //Funkcje renderujące
 void GameGraphic::renderBoard() {
     // Rysuj planszę Monopoly
@@ -363,6 +408,7 @@ void GameGraphic::render()
     renderPlayers(); //Gracze
     renderFieldOwnerColor(); //Nadaje polom kolory
     displayFieldOwner(); //Wyświetla kolory kupionych pól
+    displayPlayerBalances(); // Wyświetla stany konta graczy
 
     //displayText("W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz X pol do przodu.", "CIEZKIE ZYCIE STUDENTA", sf::Vector2f(300.f, 400.f), 20, sf::Color::Black);
 

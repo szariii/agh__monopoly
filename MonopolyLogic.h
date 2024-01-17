@@ -595,7 +595,8 @@ public:
 						currentPlayer.money = currentPlayer.money - cost;
 						players[currentPlayer.id].money = players[currentPlayer.id].money - cost;
 						players[sittingField.owner].money = players[sittingField.owner].money + cost;
-
+						game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+						game.render();
 					}
 					else {
 						notEnoughtMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, cost, sittingField.owner);
@@ -613,9 +614,10 @@ public:
 						boardFields[nextPosition].owner = currentPlayer.id;
 						currentPlayer.money = currentPlayer.money - sittingField.buy;
 						players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
+						game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+						game.setFieldColor(nextPosition, currentPlayer.id);
+						game.render();
 					}
-					game.setFieldColor(nextPosition, currentPlayer.id);
-					game.render();
 				}
 			}
 
@@ -673,30 +675,41 @@ public:
 		int randomAction = rollDice()-1; //random
 		if (randomAction == 0) {
 			cout << "Podczas nape³niania dmuchanego jacuzzi zala³eœ pokój w akademiku: Kara 10zl" << endl;
+			game.minusPlayerBalance(currentPlayer.id, 10);
+			game.render();
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet,10);
 		}
 		if (randomAction == 1) {
 			cout << "Piêkna Kelnerka w Mekongu wyda³a ci 5zl za du¿o, s¹ twoje " << endl;
 			players[currentPlayer.id].money = players[currentPlayer.id].money + 5;
+			game.minusPlayerBalance(currentPlayer.id, -5);
+			game.render();
 			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
-
 		}
 		if (randomAction == 2) {
 			cout << "Zosta³eœ z³apany bez biletu w autobusie - zaplac 10zl mandatu" << endl;
+			game.minusPlayerBalance(currentPlayer.id, 10);
+			game.render();
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 10);
+
 		}
 		if (randomAction == 3) {
 			cout << "Udzielasz korepetycji synowi kole¿anki twojej mamy - pobierz 10" << endl;
 			players[currentPlayer.id].money = players[currentPlayer.id].money + 10;
+			game.minusPlayerBalance(currentPlayer.id, -10);
+			game.render();
 			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
-
 		}
 		if (randomAction == 4) {
 			cout << "Op³ata za pokój w akademiku - zap³aæ 20zl " << endl;
+			game.minusPlayerBalance(currentPlayer.id, 20);
+			game.render();
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 20);
 		}
 		if (randomAction == 5) {
 			cout << "Zebra³eœ astronomiczn¹ iloœæ ¿appsów - pobierz 10zl" << endl;
+			game.minusPlayerBalance(currentPlayer.id, -10);
+			game.render();
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 10);
 		}
 	}
@@ -729,6 +742,9 @@ public:
 					players[currentPlayer.id].money = players[currentPlayer.id].money - cost;
 					players[sittingField.owner].money = players[sittingField.owner].money + cost;
 
+					game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+					game.render();
+
 					nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
 
 				}
@@ -751,6 +767,7 @@ public:
 					boardFields[nextPosition].owner = currentPlayer.id;
 					currentPlayer.money = currentPlayer.money - sittingField.buy;
 					players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
+					game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
 					game.setFieldColor(nextPosition, currentPlayer.id);
 					game.render();
 				}
@@ -783,6 +800,9 @@ public:
 	void loseMoney(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, int money){
 		if(players[currentPlayer.id].money > money){
 			players[currentPlayer.id].money = players[currentPlayer.id].money - money;
+			game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+			game.render();
+
 			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
 		}
 		else {
@@ -1043,6 +1063,8 @@ public:
 					cout << "Jesteœ za biedny" << endl;
 				}
 			}
+			game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+			game.render();
 		}
 
 		if (notEnoughtMoneyBool) {
@@ -1129,6 +1151,7 @@ public:
 		if (choosenAction) {
 				players[currentPlayer.id].money = players[currentPlayer.id].money + boardFields[selectdValue].buy;
 				boardFields[selectdValue].owner = -1;
+				game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
 				game.setFieldColor(selectdValue, -1);
 				game.render();
 		}
@@ -1157,6 +1180,8 @@ public:
 				nextPlayer(boardPlayersPosition, boardFields, players, currentPlayer);
 
 			}
+			game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+			game.render();
 		}
 
 
