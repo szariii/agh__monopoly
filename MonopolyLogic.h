@@ -640,9 +640,9 @@ public:
 			int next = findPlayerPositionMovingForward(nextPosition, 2);
 			boardPlayersPosition[nextPosition][currentPlayer.id] = -1;
 			boardPlayersPosition[next][currentPlayer.id] = currentPlayer.id;
-			checkField(boardPlayersPosition, boardFields, players, currentPlayer, next, doublet);
 			game.movePlayer(currentPlayer.id, next);
 			game.render();
+			checkField(boardPlayersPosition, boardFields, players, currentPlayer, next, doublet);
 		}
 		if(randomAction==1){
 			cout << "Trafi³eœ na wyk³ad profesora Migasa – stoisz nastêpn¹ turê" <<endl;
@@ -651,9 +651,9 @@ public:
 		}
 		if (randomAction == 2) {
 			cout << "Zosta³eœ z³apany przy próbie przemycenia w³asnego alkoholu do Studia. Idziesz na 2 tury do wiêzienia " << endl;
-			goToJail(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false, 2);
 			game.movePlayer(currentPlayer.id, 90);
 			game.render();
+			goToJail(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false, 2);
 		}
 		if (randomAction == 3) {
 			cout << "Spotka³eœ pani¹ mgr. In¿ Mariê Grzelak. Co prawda nie ruszasz siê z miejsca ale za to masz lepszy humor." << endl;
@@ -709,9 +709,9 @@ public:
 		}
 		if (randomAction == 5) {
 			cout << "Zebra³eœ astronomiczn¹ iloœæ ¿appsów - pobierz 10zl" << endl;
+			players[currentPlayer.id].money = players[currentPlayer.id].money + 10;
 			game.minusPlayerBalance(currentPlayer.id, -10);
 			game.render();
-			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 10);
 		}
 	}
 
