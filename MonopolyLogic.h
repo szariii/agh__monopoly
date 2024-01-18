@@ -596,6 +596,7 @@ public:
 						players[currentPlayer.id].money = players[currentPlayer.id].money - cost;
 						players[sittingField.owner].money = players[sittingField.owner].money + cost;
 						game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+						game.updatePlayerBalance(sittingField.owner, players[sittingField.owner].money);
 						game.render();
 					}
 					else {
