@@ -744,6 +744,7 @@ public:
 					players[sittingField.owner].money = players[sittingField.owner].money + cost;
 
 					game.updatePlayerBalance(currentPlayer.id, players[currentPlayer.id].money);
+					game.updatePlayerBalance(sittingField.owner, players[sittingField.owner].money);
 					game.render();
 
 					nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);

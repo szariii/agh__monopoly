@@ -17,6 +17,8 @@ public:
 		pawn.setRadius(20.0f);
 		pawn.setFillColor(color);
 		pawn.setPosition(startPos);
+		pawn.setOutlineThickness(2.f);
+		pawn.setOutlineColor(sf::Color::Black);
 		position = startPos;
 		this->color = color;
 	}
