@@ -137,10 +137,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Card.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Field.h" />
     <ClCompile Include="MonopolyLogic.h" />
+    <ClInclude Include="Card.h" />
     <ClInclude Include="PlayerInformations.h" />
   </ItemGroup>
   <ItemGroup>

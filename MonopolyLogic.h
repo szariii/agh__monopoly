@@ -636,36 +636,42 @@ public:
 	void hardLife(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
 		int randomAction = rollDice()-1; //random
 		if (randomAction == 0) {
-			cout << "W nocy twojemu wyk³adowcy zala³o pokój przez gniazdko elektryczne, i musi odespaæ - idziesz 2 pola do przodu";
+			cout << "W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz 2 pola do przodu.";
 			int next = findPlayerPositionMovingForward(nextPosition, 2);
 			boardPlayersPosition[nextPosition][currentPlayer.id] = -1;
 			boardPlayersPosition[next][currentPlayer.id] = currentPlayer.id;
+			game.showCard("CIEZKIE ZYCIE STUDENTA", "W nocy twojemu wykladowcy zalalo pokoj przez gniazdko elektryczne, i musi odespac - idziesz 2 pola do przodu.");
 			game.movePlayer(currentPlayer.id, next);
 			game.render();
 			checkField(boardPlayersPosition, boardFields, players, currentPlayer, next, doublet);
 		}
 		if(randomAction==1){
-			cout << "Trafi³eœ na wyk³ad profesora Migasa – stoisz nastêpn¹ turê" <<endl;
+			cout << "Trafiles na wyklad profesora Migasa - stoisz nastepna ture." <<endl;
 			players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds + 1;
+			game.showCard("CIEZKIE ZYCIE STUDENTA", "Trafiles na wyklad profesora Migasa - stoisz nastepna ture.");
 			endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
 		}
 		if (randomAction == 2) {
-			cout << "Zosta³eœ z³apany przy próbie przemycenia w³asnego alkoholu do Studia. Idziesz na 2 tury do wiêzienia " << endl;
+			cout << "Zostales zlapany przy probie przemycenia wlasnego alkoholu do Studia. Idziesz na 2 tury do wiezienia." << endl;
+			game.showCard("CIEZKIE ZYCIE STUDENTA", "Zostales zlapany przy probie przemycenia wlasnego alkoholu do Studia. Idziesz na 2 tury do wiezienia.");
 			game.movePlayer(currentPlayer.id, 90);
 			game.render();
 			goToJail(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false, 2);
 		}
 		if (randomAction == 3) {
-			cout << "Spotka³eœ pani¹ mgr. In¿ Mariê Grzelak. Co prawda nie ruszasz siê z miejsca ale za to masz lepszy humor." << endl;
+			cout << "Spotkales pania mgr. inz. Mariê Grzelak. Co prawda nie ruszasz sie z miejsca ale za to masz lepszy humor." << endl;
+			game.showCard("CIEZKIE ZYCIE STUDENTA", "Spotkales pania mgr. inz. Mariê Grzelak. Co prawda nie ruszasz sie z miejsca ale za to masz lepszy humor.");
 			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
 		}
 		if (randomAction == 4) {
-			cout << "Twoja strona z niepopularnymi opiniami dotycz¹cymi dziekana okaza³a siê byæ publiczna. Stoisz dwie kolejki " << endl;
+			cout << "Twoja strona z niepopularnymi opiniami dotyczacymi dziekana okazala sie byc publiczna. Stoisz dwie kolejki." << endl;
+			game.showCard("CIEZKIE ZYCIE STUDENTA", "Twoja strona z niepopularnymi opiniami dotyczacymi dziekana okazala sie byc publiczna. Stoisz dwie kolejki.");
 			players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds + 2;
 			endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
 		}
 		if (randomAction == 5) {
-			cout << "W akademiku zamaraz³y rury z wod¹. Stoisz nastepn¹ kolejkê (Nie pójdziesz przecie¿ na zajêcia nieœwie¿y) " <<endl;
+			cout << "W akademiku zamarazly rury z woda. Stoisz nastepna kolejke. (Nie pojdziesz przeciez na zajecia nieswiezy)." <<endl;
+			game.showCard("CIEZKIE ZYCIE STUDENTA", "W akademiku zamarazly rury z woda. Stoisz nastepna kolejke. (Nie pojdziesz przeciez na zajecia nieswiezy).");
 			players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds + 1;
 			endCurrentMove(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, false);
 		}
@@ -675,40 +681,45 @@ public:
 	void chance(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet){
 		int randomAction = rollDice()-1; //random
 		if (randomAction == 0) {
-			cout << "Podczas nape³niania dmuchanego jacuzzi zala³eœ pokój w akademiku: Kara 10zl" << endl;
+			cout << "Podczas napelniania dmuchanego jacuzzi zalales pokoj w akademiku - kara 10zl." << endl;
+			game.showCard("SZANSA", "Podczas napelniania dmuchanego jacuzzi zalales pokoj w akademiku - kara 10zl.");
 			game.minusPlayerBalance(currentPlayer.id, 10);
 			game.render();
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet,10);
 		}
 		if (randomAction == 1) {
-			cout << "Piêkna Kelnerka w Mekongu wyda³a ci 5zl za du¿o, s¹ twoje " << endl;
+			cout << "Piekna Kelnerka w Mekongu wydala ci 5zl za duzo, sa twoje." << endl;
 			players[currentPlayer.id].money = players[currentPlayer.id].money + 5;
+			game.showCard("SZANSA", "Piekna Kelnerka w Mekongu wydala ci 5zl za duzo, sa twoje.");
 			game.minusPlayerBalance(currentPlayer.id, -5);
 			game.render();
 			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
 		}
 		if (randomAction == 2) {
-			cout << "Zosta³eœ z³apany bez biletu w autobusie - zaplac 10zl mandatu" << endl;
+			cout << "Zostales zlapany bez biletu w autobusie - zaplac 10zl mandatu." << endl;
+			game.showCard("SZANSA", "Zostales zlapany bez biletu w autobusie - zaplac 10zl mandatu.");
 			game.minusPlayerBalance(currentPlayer.id, 10);
 			game.render();
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 10);
-
 		}
 		if (randomAction == 3) {
-			cout << "Udzielasz korepetycji synowi kole¿anki twojej mamy - pobierz 10" << endl;
+			cout << "Udzielasz korepetycji synowi kolezanki twojej mamy - pobierz 10zl." << endl;
 			players[currentPlayer.id].money = players[currentPlayer.id].money + 10;
+			game.showCard("SZANSA", "Udzielasz korepetycji synowi kolezanki twojej mamy - pobierz 10zl.");
 			game.minusPlayerBalance(currentPlayer.id, -10);
 			game.render();
 			nextplayerActions(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet);
 		}
 		if (randomAction == 4) {
-			cout << "Op³ata za pokój w akademiku - zap³aæ 20zl " << endl;
+			cout << "Oplata za pokoj w akademiku - zaplac 20zl." << endl;
+			game.showCard("SZANSA", "Oplata za pokoj w akademiku - zaplac 20zl.");
 			game.minusPlayerBalance(currentPlayer.id, 20);
 			game.render();
 			loseMoney(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, 20);
 		}
 		if (randomAction == 5) {
-			cout << "Zebra³eœ astronomiczn¹ iloœæ ¿appsów - pobierz 10zl" << endl;
+			cout << "Zebrales astronomiczna ilosc zappsow - pobierz 10zl." << endl;
+			game.showCard("SZANSA", "Zebrales astronomiczna ilosc zappsow - pobierz 10zl.");
 			players[currentPlayer.id].money = players[currentPlayer.id].money + 10;
 			game.minusPlayerBalance(currentPlayer.id, -10);
 			game.render();

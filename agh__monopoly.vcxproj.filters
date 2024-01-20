@@ -24,9 +24,15 @@
     <ClCompile Include="Field.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerInformations.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

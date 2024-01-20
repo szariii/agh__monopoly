@@ -12,8 +12,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
-//Plki klas
+//Plki gry
 #include "Player.h"
+#include "Card.h"
 
 //Zmienne globalne
 
@@ -24,6 +25,9 @@ const int playerNumber = 4;
 */
 class GameGraphic
 {
+	//Karta szans
+	Card Card;
+
 	//Zmienne
 	sf::Event event; //Przechytywanie akcji okna
 	int hoveredFieldId; //Na którym polu mysz
@@ -48,7 +52,7 @@ class GameGraphic
 	std::vector<sf::Color> fieldColors; //Kolory pól
 	
 	//Stany konta
-	std::vector<float> playerBalances;  // Stany konta graczy
+	std::vector<float> playerBalances;  //Stany konta graczy
 
 	//Funkcje prywatne
 	void initVariables(); //Funkcja inicjująca zmienne.
@@ -63,13 +67,10 @@ public:
 
 	//Funkcje
 	void loadBoardTexture(const std::string& filePath);
-	void createPlayers(int numPlayers); // Funkcja tworząca daną liczbę graczy
-	void movePlayer(int playerId, int propId); // Funcja poruszająca gracza o danym id na dane pole
+	void createPlayers(int numPlayers); //Funkcja tworząca daną liczbę graczy
+	void movePlayer(int playerId, int propId); //Funcja poruszająca gracza o danym id na dane pole
 
-	void displayText(const std::string& mainText, const std::string& topText); // Funkcja karty szansa
-
-	void handleHover();
-	void displayFieldCard();
+	void handleHover(); //Id najechaniej karty
 
 	void displayFieldOwner();
 	void setFieldColor(int fieldId, int playerId);
@@ -78,9 +79,11 @@ public:
 	void displayPlayerBalances();
 	void minusPlayerBalance(int playerId, float newBalance);
 
+	void showCard(const std::string& title, const std::string& content);
+
 	//Funkcje renderujące
-	void renderBoard(); // Tworzenie planszy
-	void renderPlayers(); // Tworznie graczy
+	void renderBoard(); //Tworzenie planszy
+	void renderPlayers(); //Tworznie graczy
 	void renderFieldOwnerColor(); //Zmiana kolorów
 
 	//Główne funkcje
