@@ -23,6 +23,8 @@ void GameGraphic::initVariables() {
     playerBalances.resize(playerNumber, 150.f);
 }
 
+
+
 void GameGraphic::initWindow() {
 	/*
 		Funkcja tworząca okno.
@@ -249,6 +251,17 @@ void GameGraphic::minusPlayerBalance(int playerId, float newBalance) {
 void GameGraphic::showCard(const std::string& title, const std::string& content) {
     Card.showCard(title, content);
 }
+
+void GameGraphic::showButton(const std::string& title, const std::string& content) {
+    Button.showButton(title, content);
+
+}
+
+void GameGraphic::showButton2(const std::string& title, const std::string& content, const std::string& content2) {
+    Button.showButton2(title, content, content2);
+
+}
+
 
 //Funkcje renderujące
 void GameGraphic::renderBoard() {

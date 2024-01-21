@@ -9,6 +9,8 @@
 #include <cstdlib>;
 #include <ctime>;
 #include "Game.h";
+#include"Przycisk.h"
+
 
 using namespace std;
 #define MAX_SIZE 163824512352345;
@@ -28,9 +30,10 @@ public:
 		//Pêtla gry
 		while (game.running())
 		{
+			
 			game.update();
 			game.render();
-
+			
 
 			srand((unsigned)time(NULL));
 			Field boardFieldsTemporary[40] = {};
@@ -115,6 +118,10 @@ public:
 
 			int index = 0;
 			int commonFieldIndex = 0;
+
+			
+
+
 
 			Field start;
 			start.id = index;
@@ -508,17 +515,24 @@ public:
 			}
 			else {
 				cout << "Pauzujesz t¹ kolejkê. Zosta³o: "<< players[currentPlayer.id].stopedRounds - 1<<endl;
+				std::string resultAsString = std::to_string(players[currentPlayer.id].stopedRounds - 1);
+				game.showButton("Pauzujesz t¹ kolejkê. Zosta³o:", resultAsString);
 				players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds - 1;
 				nextPlayer(boardPlayersPosition, boardFields, players, currentPlayer);
 
 			}
 		}
 		else {
+			
 			cout << "Rzuæ kostk¹ graczu o ID: " << currentPlayer.id << endl;
 			int firstDice = rollDice();
 			int secondDice = rollDice();
 			cout << "pierwsza kostka: " << firstDice << endl;
 			cout << "druga kostka: " << secondDice << endl;
+			std::string resultAsString = std::to_string(firstDice);
+			std::string resultAsString1 = std::to_string(secondDice);
+			game.showButton2("Rzut kostkami:", resultAsString, resultAsString1);
+
 			int playerPosition;
 			for (int i = 0; i < 40; i++) {
 				if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
@@ -532,7 +546,9 @@ public:
 
 			//Ruszanie gracza
 			game.movePlayer(currentPlayer.id, nextPosition);
+			game.showButton("tajes", "");
 			game.render();
+
 			
 			boardPlayersPosition[nextPosition][currentPlayer.id] = currentPlayer.id;
 			//printPlayersPlaces(boardPlayersPosition);
@@ -833,7 +849,7 @@ public:
 
 			int choosenAction;
 			cin >> choosenAction;
-
+			//TU TEZ 
 			switch (choosenAction)
 			{
 			case 1:
@@ -871,7 +887,7 @@ public:
 			if (boardFields[i].owner == currentPlayer.id) {
 				boardFields[i].owner = -1;
 			}
-			if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
+ 			if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
 				boardPlayersPosition[i][currentPlayer.id] = -1;
 			}
 		}
@@ -897,9 +913,7 @@ public:
 
 		int choosenAction;
 
-		/*void przycisk1(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, false, false, 0, 0) {
-			houseAction(boardPlayersPosition, boardFields, players, currentPlayer, nextPosition, doublet, false, false, 0, 0)
-		}*/
+	// TU SE WPIERDOL PRZYCISK
 		cin >> choosenAction;
 
 		switch (choosenAction)

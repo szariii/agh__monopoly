@@ -15,6 +15,7 @@
 //Plki gry
 #include "Player.h"
 #include "Card.h"
+#include"Przycisk.h"
 
 //Zmienne globalne
 
@@ -27,12 +28,16 @@ class GameGraphic
 {
 	//Karta szans
 	Card Card;
+	Button Button;
 
 	//Zmienne
 	sf::Event event; //Przechytywanie akcji okna
 	int hoveredFieldId; //Na którym polu mysz
 	sf::Text balancesText; //Stan konta
+public:
+	//Prszyciski
 
+private:
 	//czcionka
 	sf::Font font; 
 
@@ -59,6 +64,7 @@ class GameGraphic
 	void initWindow(); //Funkcja tworząca okno aplikacji.
 
 public:
+	
 	//Konstruktor i destruktor
 	GameGraphic();
 	~GameGraphic();
@@ -80,7 +86,8 @@ public:
 	void minusPlayerBalance(int playerId, float newBalance);
 
 	void showCard(const std::string& title, const std::string& content);
-
+	void showButton(const std::string& title, const std::string& content);
+	void showButton2(const std::string& title, const std::string& content, const std::string& content2);
 	//Funkcje renderujące
 	void renderBoard(); //Tworzenie planszy
 	void renderPlayers(); //Tworznie graczy
