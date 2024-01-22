@@ -12,8 +12,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
-//Plki klas
+//Plki gry
 #include "Player.h"
+#include "Card.h"
+#include"Przycisk.h"
 
 //Zmienne globalne
 
@@ -24,11 +26,18 @@ const int playerNumber = 4;
 */
 class GameGraphic
 {
+	//Karta szans
+	Card Card;
+	Button Button;
+
 	//Zmienne
 	sf::Event event; //Przechytywanie akcji okna
 	int hoveredFieldId; //Na którym polu mysz
 	sf::Text balancesText; //Stan konta
+public:
+	//Prszyciski
 
+private:
 	//czcionka
 	sf::Font font; 
 
@@ -43,13 +52,19 @@ class GameGraphic
 	//Pionki
 	std::vector<Player> players; //Wektor przechowujący pionki graczy
 
-	std::vector<float> playerAccounts; // Stany kont graczy
+	//Własność pól
+	std::vector<sf::RectangleShape> fieldRectangles; //Własność pól
+	std::vector<sf::Color> fieldColors; //Kolory pól
+	
+	//Stany konta
+	std::vector<float> playerBalances;  //Stany konta graczy
 
 	//Funkcje prywatne
 	void initVariables(); //Funkcja inicjująca zmienne.
 	void initWindow(); //Funkcja tworząca okno aplikacji.
 
 public:
+	
 	//Konstruktor i destruktor
 	GameGraphic();
 	~GameGraphic();
@@ -58,22 +73,29 @@ public:
 
 	//Funkcje
 	void loadBoardTexture(const std::string& filePath);
-	void createPlayers(int numPlayers); // Funkcja tworząca daną liczbę graczy
-	void movePlayer(int playerId, int propId); // Funcja poruszająca gracza o danym id na dane pole
-	void displayText(const std::string& mainText, const std::string& topText); // Funkcja karty szansa
-	void displayPlayerAccounts();
-	void updatePlayerAccount(int playerId, float amount = 150.0f); // Domyślna wartość dla kwoty
-	void handleHover();
-	void displayFieldCard();
+	void createPlayers(int numPlayers); //Funkcja tworząca daną liczbę graczy
+	void movePlayer(int playerId, int propId); //Funcja poruszająca gracza o danym id na dane pole
 
+	void handleHover(); //Id najechaniej karty
+
+	void displayFieldOwner();
+	void setFieldColor(int fieldId, int playerId);
+
+	void updatePlayerBalance(int playerId, float newBalance);
+	void displayPlayerBalances();
+	void minusPlayerBalance(int playerId, float newBalance);
+
+	void showCard(const std::string& title, const std::string& content);
+	void showButton(const std::string& title, const std::string& content);
+	void showButton2(const std::string& title, const std::string& content, const std::string& content2);
 	//Funkcje renderujące
-	void renderBoard(); // Tworzenie planszy
-	void renderPlayers(); // Tworznie graczy
+	void renderBoard(); //Tworzenie planszy
+	void renderPlayers(); //Tworznie graczy
+	void renderFieldOwnerColor(); //Zmiana kolorów
 
 	//Główne funkcje
 	void pollEvents(); //Funkcja reagująca na zdarzenia okna.
 	void update(); //Funkcja aktualizująca obiekty gry.
 	void render(); //Funkcja tworząca obiekty gry
-
 };
 

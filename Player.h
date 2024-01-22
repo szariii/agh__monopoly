@@ -1,6 +1,9 @@
 ﻿#pragma once
 
+//Bibloteki c++
 #include <iostream>
+
+//Biblioteki sfml
 #include <SFML/Graphics.hpp>
 
 const int SCREEN_WIDTH = 1000;
@@ -9,14 +12,16 @@ const int SCREEN_HEIGHT = 1000;
 class Player
 {
 public:
-	sf::CircleShape pawn;  // Pionek gracza
-	sf::Vector2f position; // Aktualna pozycja gracza
-	sf::Color color;       // Kolor gracza
+	sf::CircleShape pawn;  //Pionek gracza
+	sf::Vector2f position; //Aktualna pozycja gracza
+	sf::Color color;       //Kolor gracza
 
 	Player(sf::Vector2f startPos = sf::Vector2f(500.f, 500.f), sf::Color color = sf::Color::Yellow) {
 		pawn.setRadius(20.0f);
 		pawn.setFillColor(color);
 		pawn.setPosition(startPos);
+		pawn.setOutlineThickness(2.f);
+		pawn.setOutlineColor(sf::Color::Black);
 		position = startPos;
 		this->color = color;
 	}
@@ -73,7 +78,6 @@ public:
 			xPos = GO_WIDTH / 2 - PLAYER_SIZE + 15;
 			yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PLAYER_SIZE + 15);
 		}
-
 		pawn.setPosition(sf::Vector2f(xPos, yPos+(playerId*2)));
 	}
 };
