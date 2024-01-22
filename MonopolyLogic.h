@@ -270,6 +270,7 @@ public:
 			commonField10.id = index;
 			boardFields[index] = commonField10;
 			index = index + 1;
+
 			commonFieldIndex = commonFieldIndex + 1;
 
 			Field commonField11 = boardFieldsTemporary[commonFieldIndex];

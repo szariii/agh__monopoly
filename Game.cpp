@@ -1,5 +1,6 @@
 ﻿//Pliki klas
 #include "Game.h"
+#include "Przycisk.h"
 
 //Funkcje prywatne
 void GameGraphic::initVariables()
@@ -320,11 +321,13 @@ void GameGraphic::render()
 	/*
 		Tworzenie obiektów gry.
 	*/
-
+  
 	//wczytanie planszy
     loadBoardTexture("Textures/board.png");
 
 	this->window->clear(sf::Color::Cyan);
+
+
 
     //wczytywanie elementów gry
     renderBoard();
