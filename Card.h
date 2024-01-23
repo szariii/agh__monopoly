@@ -13,7 +13,8 @@ private:
     sf::RenderWindow window;
     sf::Event event;
     sf::Font font;
-
+    sf::Text contentText3;
+    sf::RectangleShape OKrect;
     sf::RectangleShape cardRect;
     sf::Text titleText;
     sf::Text contentText;

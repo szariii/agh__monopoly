@@ -7,7 +7,7 @@
 #include <iomanip> 
 
 //Biblioteki SFML
-#include <SFML/Graphics.hpp>
+
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "Card.h"
 #include"Przycisk.h"
+#include "Anuluj.h"
 
 //Zmienne globalne
 
@@ -26,9 +27,12 @@ const int playerNumber = 4;
 */
 class GameGraphic
 {
+	Cancel Cancel;
 	//Karta szans
 	Card Card;
+	//Przycisk glowny
 	Button Button;
+	
 
 	//Zmienne
 	sf::Event event; //Przechytywanie akcji okna
@@ -86,8 +90,14 @@ public:
 	void minusPlayerBalance(int playerId, float newBalance);
 
 	void showCard(const std::string& title, const std::string& content);
-	void showButton(const std::string& title, const std::string& content);
+	void showButton(const std::string& title);
 	void showButton2(const std::string& title, const std::string& content, const std::string& content2);
+	void showButton3(const std::string& title);
+	void showAnuluj();
+	void showButton4(const std::string& title, const std::string& title2);
+	int chooseOptions();
+	int chooseOptions2();
+	int chooseOptions3();
 	//Funkcje renderujące
 	void renderBoard(); //Tworzenie planszy
 	void renderPlayers(); //Tworznie graczy

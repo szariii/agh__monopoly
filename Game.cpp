@@ -1,6 +1,8 @@
 ﻿//Pliki gry
+#pragma once
 #include "Game.h"
 #include "Przycisk.h"
+
 
 //Funkcje prywatne
 void GameGraphic::initVariables() {
@@ -253,8 +255,8 @@ void GameGraphic::showCard(const std::string& title, const std::string& content)
     Card.showCard(title, content);
 }
 
-void GameGraphic::showButton(const std::string& title, const std::string& content) {
-    Button.showButton(title, content);
+void GameGraphic::showButton(const std::string& title) {
+    Button.showButton(title);
 
 }
 
@@ -263,6 +265,34 @@ void GameGraphic::showButton2(const std::string& title, const std::string& conte
 
 }
 
+void GameGraphic::showButton3(const std::string& title)
+{
+    Button.showButton3(title);
+}
+
+void GameGraphic::showAnuluj()
+{
+    Cancel.ShowAnuluj();
+}
+
+void GameGraphic::showButton4(const std::string& title, const std::string& title2)
+{
+    Button.showButton4(title, title2);
+}
+
+int GameGraphic::chooseOptions() {
+    return Button.Pressed1;
+}
+
+int GameGraphic::chooseOptions2()
+{
+    return Button.Pressed3;
+}
+
+int GameGraphic::chooseOptions3()
+{
+    return Button.Pressed4;
+}
 
 //Funkcje renderujące
 void GameGraphic::renderBoard() {

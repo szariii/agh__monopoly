@@ -45,6 +45,26 @@ void Card::showCard(const std::string& title, const std::string& content) {
     titleText.setPosition(cardRect.getSize().x / 2.0f, cardRect.getSize().y / 4.0f);
     contentText.setPosition(cardRect.getSize().x / 2.0f, cardRect.getSize().y / 2.0f);
 
+    //Okienko OK
+    sf::Vector2f WindowSize(window.getSize().x, window.getSize().y);
+    sf::Vector2f OKrectSize(70.f, 40.f);
+    OKrect.setSize(OKrectSize);
+    OKrect.setOrigin(OKrectSize.x / 2, OKrectSize.y / 2);
+    OKrect.setFillColor(sf::Color(255, 255, 153));
+    OKrect.setPosition(WindowSize.x / 2, (WindowSize.y / 5) * 4);
+    OKrect.setFillColor(sf::Color(255, 255, 50));
+    OKrect.setOutlineThickness(0.5f);
+    OKrect.setOutlineColor(sf::Color::Black);
+
+
+    contentText3.setFont(font);
+    contentText3.setCharacterSize(24);
+    contentText3.setFillColor(sf::Color::Black);
+    contentText3.setStyle(sf::Text::Bold);
+    contentText3.setString("OK");
+    sf::FloatRect textBounds = contentText3.getLocalBounds();
+    contentText3.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
+    contentText3.setPosition(OKrect.getPosition().x, OKrect.getPosition().y);
     //Ustawienia pozycji dodatkowego przesuniêcia dla d³u¿szego tekstu
     float yOffset = 0.f;
 
@@ -98,11 +118,41 @@ void Card::showCard(const std::string& title, const std::string& content) {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+            else if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    sf::Vector2i MousePosition = sf::Mouse::getPosition(window);
+                    sf::FloatRect OKPos = OKrect.getGlobalBounds();
+
+                    if (OKPos.contains(static_cast<sf::Vector2f>(MousePosition))) {
+                        window.close();
+                    }
+
+                }
+
+            }
+            else if (event.type == sf::Event::MouseMoved)
+            {
+                sf::Vector2i MousePosition = sf::Mouse::getPosition(window);
+                sf::FloatRect OKPos = OKrect.getGlobalBounds();
+
+                if (OKPos.contains(static_cast<sf::Vector2f>(MousePosition)))
+                {
+                    OKrect.setFillColor(sf::Color(255, 255, 150));
+                }
+                else
+                {
+                    OKrect.setFillColor(sf::Color(255, 255, 50));
+                }
+
+            }
         }
         window.clear();
         window.draw(cardRect);
         window.draw(titleText);
         window.draw(contentText);
+        window.draw(OKrect);
+        window.draw(contentText3);
         window.display();
     }
 }

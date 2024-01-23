@@ -1,3 +1,4 @@
+#pragma once
 #include<iostream>;
 #include "Field.h";
 #include "PlayerInformations.h";
@@ -9,7 +10,7 @@
 #include <cstdlib>;
 #include <ctime>;
 #include "Game.h";
-#include"Przycisk.h"
+
 
 
 using namespace std;
@@ -171,7 +172,7 @@ public:
 			railroad1.earnForBuildingsMoney[3] = 10;
 			railroad1.earnForBuildingsMoney[4] = 20;
 			railroad1.id = index;
-			railroad1.name = "lotniosk Kraków Balice";
+			railroad1.name = "lotnisko Kraków Balice";
 			railroad1.buildedHouses = 0;
 			railroad1.special = true;
 			railroad1.specialType = 3;
@@ -517,7 +518,7 @@ public:
 			else {
 				cout << "Pauzujesz t¹ kolejkê. Zosta³o: "<< players[currentPlayer.id].stopedRounds - 1<<endl;
 				std::string resultAsString = std::to_string(players[currentPlayer.id].stopedRounds - 1);
-				game.showButton("Pauzujesz t¹ kolejkê. Zosta³o:", resultAsString);
+				game.showButton2("Pauzujesz t¹ kolejkê. Zosta³o:", resultAsString,"");
 				players[currentPlayer.id].stopedRounds = players[currentPlayer.id].stopedRounds - 1;
 				nextPlayer(boardPlayersPosition, boardFields, players, currentPlayer);
 
@@ -547,7 +548,6 @@ public:
 
 			//Ruszanie gracza
 			game.movePlayer(currentPlayer.id, nextPosition);
-			game.showButton("tajes", "");
 			game.render();
 
 			
@@ -626,9 +626,15 @@ public:
 			else {
 				if (currentPlayer.money > sittingField.buy) {
 					cout << "Would you like to buy(true/false)? It cost: " << sittingField.buy << endl;
-					string buy;
-					cin >> buy;
-					if (buy == "true") {
+					int buy;
+					
+					std::string resultAsString = std::to_string(sittingField.buy);
+					game.showButton4("Czy chcesz kupic to pole? Cena:", resultAsString);
+					
+					game.render();
+					buy = game.chooseOptions3();
+					//cin >> buy; // TU PRZYCISK
+					if (buy == 1) {
 						boardFields[nextPosition].owner = currentPlayer.id;
 						currentPlayer.money = currentPlayer.money - sittingField.buy;
 						players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
@@ -791,9 +797,15 @@ public:
 		else {
 			if (currentPlayer.money > sittingField.buy) {
 				cout << "Would you like to buy(true/false)? It cost: " << sittingField.buy << endl;
-				string buy;
-				cin >> buy;
-				if (buy == "true") {
+				std::string resultAsString = std::to_string(sittingField.buy);
+				int buy;
+				game.showButton4("Czy chcesz kupic to pole? Cena:", resultAsString);
+				game.render();
+				buy = game.chooseOptions3();
+				//cin >> buy;
+
+				//PRZYCSIK CHUJU
+				if (buy == 1) {
 					boardFields[nextPosition].owner = currentPlayer.id;
 					currentPlayer.money = currentPlayer.money - sittingField.buy;
 					players[currentPlayer.id].money = players[currentPlayer.id].money - sittingField.buy;
@@ -826,7 +838,6 @@ public:
 
 	}
 
-
 	void loseMoney(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet, int money){
 		if(players[currentPlayer.id].money > money){
 			players[currentPlayer.id].money = players[currentPlayer.id].money - money;
@@ -841,15 +852,18 @@ public:
 	}
 
 	void notEnoughtMoney(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet,float money, int ownerId) {
-		cout << "cena: " << money<<endl;
+		cout << "cena: " << money<<endl;//CENAAAAAAAAAA WYSWIETLIC
 		if (players[currentPlayer.id].money < money) {
 			cout << "Co chcesz zrobiæ?" << endl;
 			cout << "1) Sprzedaj pola" << endl;
 			cout << "2) Sprzedaj apartamenty/hotele" << endl;
 			cout << "3) Poddaj sie" << endl;
 
-			int choosenAction;
-			cin >> choosenAction;
+			game.showButton3("Co chcesz zrobic?");
+			game.render();
+
+			int choosenAction = game.chooseOptions2();
+			//cin >> choosenAction;
 			//TU TEZ 
 			switch (choosenAction)
 			{
@@ -899,6 +913,9 @@ public:
 	}
 
 	void nextplayerActions(int boardPlayersPosition[][6], Field* boardFields, PlayerInformations* players, PlayerInformations currentPlayer, int nextPosition, bool doublet) {
+		game.showButton("Co chcesz zrobic ?");
+		int choosenAction = game.chooseOptions();
+		game.render();
 		cout << "Co chcesz zrobiæ?" << endl;
 		cout << "1) Buduj apartamenty/hotele" << endl;
 		cout << "2) Sprzedaj apartamenty/hotele" << endl;
@@ -911,11 +928,8 @@ public:
 		}
 
 		printPlayersInformations(players[currentPlayer.id]);
-
-		int choosenAction;
-
-	// TU SE WPIERDOL PRZYCISK
-		cin >> choosenAction;
+		
+	
 
 		switch (choosenAction)
 		{
@@ -1054,17 +1068,21 @@ public:
 
 
 			}
+			
 		}
-
+		 
+		game.showAnuluj();
+		game.render();
 		cout << "40) Anuluj" << endl;
-		int selectdValue;
+		int i = 0;
+		int selectdValue = i;
 		bool exitFlag = true;
 		bool choosenAction = true;
 		while (exitFlag)
 		{
 			cout << "Wybierz id z poœród podanych" <<endl;
 			
-			cin >> selectdValue;
+			//cin >> selectdValue;
 
 			for (int i = 0; i < 40; i++) {
 				if (arrayWithId[i] == selectdValue) {
@@ -1153,7 +1171,8 @@ public:
 				sellingFieldsId[i] = playerFields[i].id;
 			}
 		}
-
+		game.showAnuluj();
+		game.render();
 		cout << "40) Anuluj" << endl;
 		int selectdValue;
 		bool exitFlag = true;
@@ -1254,10 +1273,10 @@ public:
 				}
 			}
 
-			if (!endGame) {
+				if (!endGame) {
 				string test;
 				cout << "Zakoñcz turê";
-				cin >> test;
+				//cin >> test;
 				cout << nextPlayer.id << endl;
 				startPlayerTurn(boardPlayersPosition, boardFields, players, nextPlayer);
 			}
