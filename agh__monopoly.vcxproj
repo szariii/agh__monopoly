@@ -144,10 +144,12 @@
     <ClCompile Include="Field.h" />
     <ClCompile Include="MonopolyLogic.h" />
     <ClCompile Include="Przycisk.cpp" />
+    <ClCompile Include="StartWindow.cpp" />
     <ClInclude Include="Anuluj.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="PlayerInformations.h" />
     <ClInclude Include="Przycisk.h" />
+    <ClInclude Include="StartWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
