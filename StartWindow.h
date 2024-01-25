@@ -1,8 +1,6 @@
 #pragma once
 
-//Biblioteki c++
 #include <iostream>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -17,6 +15,11 @@ private:
     sf::Text playButton;
     sf::Text exitButton;
     sf::Color defaultTextColor;
+    sf::Text playerCountText;
+    sf::Text confirmButton;
+    sf::RectangleShape playerCountRectangle;
+
+    int selectedPlayerCount;
 
 public:
     StartWindow();
@@ -24,4 +27,6 @@ public:
 
     void handleMouseEvents();
     int run();
+    int choosePlayerCount();
+    int getSelectedPlayerCount() const;
 };

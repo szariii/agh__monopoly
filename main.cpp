@@ -12,7 +12,7 @@ int main() {
     StartWindow startWindow;
     int result = startWindow.run();
 
-    if (result == 0)
+    if (result != 1)
     {
         MonopolyLogic game1;
         game1.createBoard();

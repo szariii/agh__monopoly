@@ -15,8 +15,9 @@
 //Plki gry
 #include "Player.h"
 #include "Card.h"
-#include"Przycisk.h"
+#include "Przycisk.h"
 #include "Anuluj.h"
+#include "StartWindow.h"
 
 //Zmienne globalne
 
