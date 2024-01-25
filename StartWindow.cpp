@@ -54,7 +54,7 @@ void StartWindow::handleMouseEvents()
     // Sprawdü, czy mysz jest nad przyciskiem "Graj"
     if (playButton.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
     {
-        playButton.setFillColor(sf::Color::Red); // Ustaw kolor tekstu na czerwony
+        playButton.setFillColor(sf::Color::Cyan); // Ustaw kolor tekstu na czerwony
     }
     else
     {
@@ -64,7 +64,7 @@ void StartWindow::handleMouseEvents()
     // Sprawdü, czy mysz jest nad przyciskiem "Wyjdü"
     if (exitButton.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
     {
-        exitButton.setFillColor(sf::Color::Red); // Ustaw kolor tekstu na czerwony
+        exitButton.setFillColor(sf::Color::Cyan); // Ustaw kolor tekstu na czerwony
     }
     else
     {
@@ -178,7 +178,7 @@ int StartWindow::choosePlayerCount()
 
             if (plusButton.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
             {
-                plusButton.setFillColor(sf::Color::Red);
+                plusButton.setFillColor(sf::Color::Green);
             }
             else
             {
@@ -198,7 +198,7 @@ int StartWindow::choosePlayerCount()
             // Sprawdü, czy najechano na przycisk "Zatwierdü"
             if (confirmButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
             {
-                confirmButton.setFillColor(sf::Color::Red);
+                confirmButton.setFillColor(sf::Color::Cyan);
             }
             else
             {
