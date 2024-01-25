@@ -19,10 +19,6 @@
 #include "Anuluj.h"
 #include "StartWindow.h"
 
-//Zmienne globalne
-
-const int playerNumber = 4;
-
 /*
 	Główna klasa gry.
 */

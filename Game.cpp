@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Przycisk.h"
 
+int playerNumber = 4;
 
 //Funkcje prywatne
 void GameGraphic::initVariables() {
@@ -57,7 +58,6 @@ void GameGraphic::initWindow() {
 GameGraphic::GameGraphic() {
 	this->initVariables();
 	this->initWindow();
-    this->createPlayers(playerNumber);
 }
 
 GameGraphic::~GameGraphic() {
@@ -83,6 +83,7 @@ void GameGraphic::loadBoardTexture(const std::string& filePath) {
 
 void GameGraphic::createPlayers(int numPlayers) {
     //Dodaj numPlayers graczy o różnych kolorach i pozycjach startowych
+    playerNumber = numPlayers;
     for (int i = 0; i < numPlayers; ++i)
     {
         sf::Color playerColor;

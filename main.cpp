@@ -12,10 +12,10 @@ int main() {
     StartWindow startWindow;
     int result = startWindow.run();
 
-    if (result != 1)
+    if (result >= 2 || result <= 4)
     {
         MonopolyLogic game1;
-        game1.createBoard();
+        game1.createBoard(result);
     }
 
     return 0;

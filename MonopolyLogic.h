@@ -1,5 +1,5 @@
 #pragma once
-#include<iostream>;
+#include <iostream>;
 #include "Field.h";
 #include "PlayerInformations.h";
 #include <fstream>; // biblioteka pozwalaj¹ca na zapis i odczyt danych, File Stream
@@ -23,10 +23,10 @@ class MonopolyLogic {
 
 public:
 	GameGraphic game;
-	void createBoard() {
+	void createBoard(int numPlayers) {
 
 		//Inicjalizacja gry.
-		
+		game.createPlayers(numPlayers);
 
 		//Pêtla gry
 		while (game.running())
@@ -442,12 +442,12 @@ public:
 
 			// tu mozesz ja wziac cala
 
-			addPlayers(boardFields);
+			addPlayers(boardFields, numPlayers);
 		}
 	}
 
 
-	void addPlayers(Field* boardFields) {
+	void addPlayers(Field* boardFields, int numPlayers) {
 		int boardPlayersPosition[40][6] = {};
 		PlayerInformations players[6] = {};
 
@@ -457,7 +457,7 @@ public:
 			}
 		}
 
-		int countPlayers = 4;
+		int countPlayers = numPlayers;
 
 
 		for (int i = 0; i < 6	; i++) {
