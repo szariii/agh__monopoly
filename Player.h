@@ -47,8 +47,10 @@ public:
 			yPos = SCREEN_HEIGHT - (PROP_HEIGHT / 2 + PLAYER_SIZE);
 		}
 		else if (propId == 10) {
-			xPos = GO_WIDTH / 2 - PLAYER_SIZE;
-			yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PLAYER_SIZE);
+			//xPos = GO_WIDTH / 6 - PLAYER_SIZE;
+			//yPos = SCREEN_HEIGHT - (GO_WIDTH / 2 + PLAYER_SIZE) +;
+			xPos = 5;
+			yPos = 955;
 		}
 		else if (propId >= 11 && propId <= 19) {
 			xPos = GO_WIDTH / 2 - PLAYER_SIZE;
