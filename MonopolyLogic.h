@@ -441,7 +441,7 @@ public:
 			commonFieldIndex = commonFieldIndex + 1;
 
 			// tu mozesz ja wziac cala
-
+			
 			addPlayers(boardFields, numPlayers);
 		}
 	}
@@ -534,7 +534,7 @@ public:
 			std::string resultAsString = std::to_string(firstDice);
 			std::string resultAsString1 = std::to_string(secondDice);
 			game.showButton2("Rzut kostkami:", resultAsString, resultAsString1);
-
+			game.render();
 			int playerPosition;
 			for (int i = 0; i < 40; i++) {
 				if (boardPlayersPosition[i][currentPlayer.id] == currentPlayer.id) {
@@ -860,6 +860,7 @@ public:
 			cout << "3) Poddaj sie" << endl;
 
 			game.showButton3("Co chcesz zrobic?");
+			
 			game.render();
 
 			int choosenAction = game.chooseOptions2();
@@ -1072,38 +1073,41 @@ public:
 		}
 		 
 		game.showAnuluj();
+		int selectdValue2 = game.chooseAnuluj();
 		game.render();
 		cout << "40) Anuluj" << endl;
+
 		int i = 0;
-		int selectdValue = i;
 		bool exitFlag = true;
 		bool choosenAction = true;
 		while (exitFlag)
 		{
-			cout << "Wybierz id z poœród podanych" <<endl;
+			cout << selectdValue2 <<endl;
 			
 			//cin >> selectdValue;
 
 			for (int i = 0; i < 40; i++) {
-				if (arrayWithId[i] == selectdValue) {
+				if (arrayWithId[i] == selectdValue2) {
 					exitFlag = false;
 				}
 			}
 
-			if (selectdValue == 40) {
+			if (selectdValue2 == 40) {
 				exitFlag = false;
 				choosenAction = false;
+				cout << "dziala2" << endl;
+				cout << selectdValue2 << endl;
 			}
 		}
 		if(choosenAction){
 			if (destroy) {
-				players[currentPlayer.id].money = players[currentPlayer.id].money + boardFields[selectdValue].housePrice;
-				boardFields[selectdValue].buildedHouses = boardFields[selectdValue].buildedHouses - 1;
+				players[currentPlayer.id].money = players[currentPlayer.id].money + boardFields[selectdValue2].housePrice;
+				boardFields[selectdValue2].buildedHouses = boardFields[selectdValue2].buildedHouses - 1;
 			}
 			else {
-				if (players[currentPlayer.id].money >= boardFields[selectdValue].housePrice) {
-					players[currentPlayer.id].money = players[currentPlayer.id].money - boardFields[selectdValue].housePrice;
-					boardFields[selectdValue].buildedHouses = boardFields[selectdValue].buildedHouses + 1;
+				if (players[currentPlayer.id].money >= boardFields[selectdValue2].housePrice) {
+					players[currentPlayer.id].money = players[currentPlayer.id].money - boardFields[selectdValue2].housePrice;
+					boardFields[selectdValue2].buildedHouses = boardFields[selectdValue2].buildedHouses + 1;
 				}
 				else {
 					cout << "Jesteœ za biedny" << endl;
@@ -1172,26 +1176,27 @@ public:
 			}
 		}
 		game.showAnuluj();
+		int selectdValue = game.chooseAnuluj();
 		game.render();
-		cout << "40) Anuluj" << endl;
-		int selectdValue;
+		cout << selectdValue << endl;
 		bool exitFlag = true;
 		bool choosenAction = true;
 		while (exitFlag)
 		{
-			cout << "Wybierz id z poœród podanych" << endl;
+			cout << selectdValue << endl;
 
-			cin >> selectdValue;
 
 			for (int i = 0; i < 40; i++) {
 				if (playerFields[i].id == selectdValue) {
 					exitFlag = false;
+					cout << "dziala" << endl;
 				}
 			}
 
 			if (selectdValue == 40) {
 				exitFlag = false;
 				choosenAction = false;
+				cout << "dziala co ma nie dzialac" << endl;
 			}
 		}
 

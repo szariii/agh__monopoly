@@ -295,6 +295,11 @@ int GameGraphic::chooseOptions3()
     return Button.Pressed4;
 }
 
+int GameGraphic::chooseAnuluj(){
+
+    return Cancel.PressedA;
+    std::cout << "Dziala" << std::endl;
+}
 //Funkcje renderujące
 void GameGraphic::renderBoard() {
     //Rysuj planszę Monopoly

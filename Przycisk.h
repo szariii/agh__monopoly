@@ -18,11 +18,16 @@ public:
     int Pressed4;
     int Pressed5;
     sf::RenderWindow window;
+    sf::RenderWindow window1;
+    sf::RenderWindow window2;
     sf::Event event;
     sf::Font font;
     sf::Texture texture1;
     sf::Sprite sprite1;
     sf::Image icon;
+    sf::Image icon1;
+    sf::Image icon2;
+    sf::Image icon3;
     sf::RectangleShape buttonRect;
     sf::RectangleShape buttonRect1;
     sf::RectangleShape buttonRect2;

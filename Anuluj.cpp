@@ -15,7 +15,7 @@ Cancel::~Cancel()
 void Cancel::ShowAnuluj()
 {
     //Tworzenie nowego okna o wymiarach 500x300
-    window.create(sf::VideoMode(200, 200), "Anulowanie");
+    window.create(sf::VideoMode(200, 240), "Anulowanie");
     window.setPosition(sf::Vector2i(400, 350));
 
     //Ikona
@@ -29,7 +29,7 @@ void Cancel::ShowAnuluj()
     }
     //tlo
 
-    Buttonrect.setSize(sf::Vector2f(200.f, 200.f));
+    Buttonrect.setSize(sf::Vector2f(200.f, 240.f));
     Buttonrect.setFillColor(sf::Color(255, 255, 153));
 
 
@@ -45,7 +45,23 @@ void Cancel::ShowAnuluj()
     Rect1.setOutlineThickness(0.5f);
     Rect1.setOutlineColor(sf::Color::Black);
 
-    //Init tekstu
+
+    //Init tekstu wyzej
+
+
+    Text2.setFont(font);
+    Text2.setCharacterSize(15);
+    Text2.setFillColor(sf::Color::Black);
+    Text2.setStyle(sf::Text::Bold);
+    Text2.setString("Opcja niedostepna");
+    sf::FloatRect text2Bounds = Text2.getLocalBounds();
+    Text2.setOrigin(text2Bounds.left + text2Bounds.width / 2.0f, text2Bounds.top + text2Bounds.height / 2.0f);
+    Text2.setPosition(Rect1.getPosition().x, ((Rect1.getPosition().y)/3)*2);
+
+
+
+
+    //Init tekstu do recta
 
     Text1.setFont(font);
     Text1.setCharacterSize(15);
@@ -70,6 +86,7 @@ void Cancel::ShowAnuluj()
                     sf::FloatRect Rect1Pos = Rect1.getGlobalBounds();
 
                     if (Rect1Pos.contains(static_cast<sf::Vector2f>(MousePosition))) {
+                        PressedA = 40;
                         window.close();
                     }
 
@@ -90,47 +107,14 @@ void Cancel::ShowAnuluj()
                     Rect1.setFillColor(sf::Color(255, 255, 50));
                 }
             }
-            else if (event.type == sf::Event::MouseButtonPressed)
-            {
-                sf::Vector2i MousePosition = sf::Mouse::getPosition(window);
-                sf::FloatRect Rect1Pos = Rect1.getGlobalBounds();
-                //sf::FloatRect Rect2Pos = Rect2.getGlobalBounds();
-                //sf::FloatRect Rect3Pos = Rect3.getGlobalBounds();
-                //sf::FloatRect Rect4Pos = Rect4.getGlobalBounds();
-
-                if (event.mouseButton.button == sf::Mouse::Left) {
-
-                    if (Rect1Pos.contains(static_cast<sf::Vector2f>(MousePosition))) {
-
-                        PressedA = 40;
-                        window.close();
-                    }
-                    /*else if (Rect2Pos.contains(static_cast<sf::Vector2f>(MousePosition))) {
-                        Pressed1 = 2;
-                        window.close();
-                    }
-                    else if (Rect3Pos.contains(static_cast<sf::Vector2f>(MousePosition))) {
-                        Pressed1 = 3;
-                        window.close();
-                    }
-                    else if (Rect4Pos.contains(static_cast<sf::Vector2f>(MousePosition))) {
-                        Pressed1 = 4;
-                        window.close();
-                    }
-                    */
-
-
-
-
-                }
-            }
-
+         
 
         }
         window.clear();
         window.draw(Buttonrect);
         window.draw(Rect1);
         window.draw(Text1);
+        window.draw(Text2);
         window.display();
 
     }

@@ -95,6 +95,7 @@ public:
 	int chooseOptions();
 	int chooseOptions2();
 	int chooseOptions3();
+	int chooseAnuluj();
 	//Funkcje renderujące
 	void renderBoard(); //Tworzenie planszy
 	void renderPlayers(); //Tworznie graczy

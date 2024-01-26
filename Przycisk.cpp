@@ -16,9 +16,9 @@ void Button::showButton(const std::string& title) {
    
     //Ikona
     
-    icon.loadFromFile("Textures/beer.png");
+    icon1.loadFromFile("Textures/beer.png");
     //Ustaw ikony dla okna
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    window.setIcon(icon1.getSize().x, icon1.getSize().y, icon1.getPixelsPtr());
 
     //Inicjalizacja czcionki
     if (!font.loadFromFile("Fonts/arial.ttf")) {
@@ -27,8 +27,8 @@ void Button::showButton(const std::string& title) {
     sf::Vector2f WindowSize(window.getSize().x, window.getSize().y);
     
     //Inicjalizacja prostok¹ta przycisku
-    buttonRect.setSize(sf::Vector2f(500.f, 300.f));
-    buttonRect.setFillColor(sf::Color(255, 255, 153));
+    buttonRect3.setSize(sf::Vector2f(500.f, 300.f));
+    buttonRect3.setFillColor(sf::Color(255, 255, 153));
    
     //Inicjalizacja tekstu tytu³u
     titleText.setFont(font);
@@ -207,7 +207,7 @@ void Button::showButton(const std::string& title) {
         }
 
         window.clear();
-        window.draw(buttonRect);
+        window.draw(buttonRect3);
         window.draw(titleText);
         window.draw(Rect1);
         window.draw(TextR1);
@@ -225,9 +225,9 @@ void Button::showButton(const std::string& title) {
 //Przycisk do rzutu kostk¹
 void Button::showButton2(const std::string& title, const std::string& content, const std::string& content2) {
     //Tworzenie nowego okna o wymiarach 500x300
-    window.create(sf::VideoMode(500, 300), "Monopoly AGH");
-    window.setPosition(sf::Vector2i(250, 350));
-
+    window1.create(sf::VideoMode(500, 300), "Monopoly AGH");
+    window1.setPosition(sf::Vector2i(250, 350));
+    
 
     //Inicjalizacja czcionki
     if (!font.loadFromFile("Fonts/arial.ttf")) {
@@ -235,7 +235,11 @@ void Button::showButton2(const std::string& title, const std::string& content, c
     }
 
 
-    sf::Vector2f WindowSize(window.getSize().x, window.getSize().y);
+    icon3.loadFromFile("Textures/beer.png");
+    //Ustaw ikony dla okna
+    window.setIcon(icon3.getSize().x, icon3.getSize().y, icon3.getPixelsPtr());
+
+    sf::Vector2f WindowSize(window1.getSize().x, window1.getSize().y);
     sf::Vector2f OKrectSize(70.f, 40.f);
     OKrect.setSize(OKrectSize);
     OKrect.setOrigin(OKrectSize.x / 2, OKrectSize.y / 2);
@@ -331,19 +335,19 @@ void Button::showButton2(const std::string& title, const std::string& content, c
 
     contentText.setString(wrappedContent);
 
-    while (window.isOpen()) {
-        while (window.pollEvent(event)) {
+    while (window1.isOpen()) {
+        while (window1.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-                window.close();
+                window1.close();
             }
             else if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    sf::Vector2i MousePosition = sf::Mouse::getPosition(window);
+                    sf::Vector2i MousePosition = sf::Mouse::getPosition(window1);
                     sf::FloatRect OKPos = OKrect.getGlobalBounds();
 
                         if (OKPos.contains(static_cast<sf::Vector2f>(MousePosition))) {
-                            window.close();
+                            window1.close();
                         }
 
                 }
@@ -351,7 +355,7 @@ void Button::showButton2(const std::string& title, const std::string& content, c
             }
             else if(event.type == sf::Event::MouseMoved)
             {
-                sf::Vector2i MousePosition = sf::Mouse::getPosition(window);
+                sf::Vector2i MousePosition = sf::Mouse::getPosition(window1);
                 sf::FloatRect OKPos = OKrect.getGlobalBounds();
 
                 if (OKPos.contains(static_cast<sf::Vector2f>(MousePosition)))
@@ -366,15 +370,15 @@ void Button::showButton2(const std::string& title, const std::string& content, c
         
         
         }
-        window.clear();
-        window.draw(buttonRect);
-        window.draw(titleText);
-        window.draw(contentText);
-        window.draw(contentText2);
-        window.draw(OKrect);
-        window.draw(contentText3);
+        window1.clear();
+        window1.draw(buttonRect);
+        window1.draw(titleText);
+        window1.draw(contentText);
+        window1.draw(contentText2);
+        window1.draw(OKrect);
+        window1.draw(contentText3);
 
-        window.display();
+        window1.display();
     }
 }
 
@@ -553,18 +557,20 @@ void Button::showButton3(const std::string& title) {
 void Button::showButton4(const std::string& title, const std::string& title2)
 {
     //Tworzenie nowego okna o wymiarach 500x300
-    window.create(sf::VideoMode(300, 200), "Monopoly AGH");
-    window.setPosition(sf::Vector2i(250, 350));
+    window2.create(sf::VideoMode(300, 200), "Monopoly AGH");
+    window2.setPosition(sf::Vector2i(370, 400));
 
-    sf::Vector2f WindowSize(window.getSize().x, window.getSize().y);
+    sf::Vector2f WindowSize2(window2.getSize().x, window2.getSize().y);
     //Ikona
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    
+    icon2.loadFromFile("Textures/beer.png");
+    //Ustaw ikony dla okna
+    window.setIcon(icon2.getSize().x, icon2.getSize().y, icon2.getPixelsPtr());
+ 
         //Inicjalizacja prostok¹ta przycisku
-    buttonRect2.setSize(WindowSize);
+    buttonRect2.setSize(WindowSize2);
     buttonRect2.setFillColor(sf::Color(255, 255, 153));
     buttonRect2.setPosition(0.f, 0.f);
-
+    
     //Inicjalizacja tekstu tytu³u
     titleText.setFont(font);
     titleText.setCharacterSize(15);
@@ -573,7 +579,7 @@ void Button::showButton4(const std::string& title, const std::string& title2)
     titleText.setString(title);
     sf::FloatRect textBounds = titleText.getLocalBounds();
     titleText.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
-    titleText.setPosition(WindowSize.x / 2, (WindowSize.y / 5));
+    titleText.setPosition(WindowSize2.x / 2, (WindowSize2.y / 5));
     
     titleText2.setFont(font);
     titleText2.setCharacterSize(15);
@@ -582,7 +588,7 @@ void Button::showButton4(const std::string& title, const std::string& title2)
     titleText2.setString(title2);
     sf::FloatRect textBounds2 = titleText2.getLocalBounds();
     titleText2.setOrigin(textBounds2.left + textBounds2.width / 2.0f, textBounds2.top + textBounds2.height / 2.0f);
-    titleText2.setPosition(WindowSize.x / 2, (WindowSize.y / 5)*2);
+    titleText2.setPosition(WindowSize2.x / 2, (WindowSize2.y / 5)*2);
 
     //Inicjalizacja prostokata 1 Tak kupuje
 
@@ -590,7 +596,7 @@ void Button::showButton4(const std::string& title, const std::string& title2)
     Rect1_4.setSize(Rect1_4size);
     Rect1_4.setOrigin(Rect1_4size.x / 2, Rect1_4size.y / 2);
     Rect1_4.setFillColor(sf::Color(255, 255, 50));
-    Rect1_4.setPosition((WindowSize.x / 5) * 1.2, (WindowSize.y / 5) * 3);
+    Rect1_4.setPosition((WindowSize2.x / 5) * 1.2, (WindowSize2.y / 5) * 3);
     Rect1_4.setFillColor(sf::Color(255, 255, 50));
     Rect1_4.setOutlineThickness(0.5f);
     Rect1_4.setOutlineColor(sf::Color::Black);
@@ -612,7 +618,7 @@ void Button::showButton4(const std::string& title, const std::string& title2)
     Rect2_4.setSize(Rect2_4size);
     Rect2_4.setOrigin(Rect2_4size.x / 2, Rect2_4size.y / 2);
     Rect2_4.setFillColor(sf::Color(255, 255, 50));
-    Rect2_4.setPosition((WindowSize.x / 5) * 3.8, (WindowSize.y / 5) * 3);
+    Rect2_4.setPosition((WindowSize2.x / 5) * 3.8, (WindowSize2.y / 5) * 3);
     Rect2_4.setFillColor(sf::Color(255, 255, 50));
     Rect2_4.setOutlineThickness(0.5f);
     Rect2_4.setOutlineColor(sf::Color::Black);
@@ -628,14 +634,14 @@ void Button::showButton4(const std::string& title, const std::string& title2)
     TextR2_4.setPosition(Rect2_4.getPosition().x, Rect2_4.getPosition().y);
 
 
-    while (window.isOpen()) {
-        while (window.pollEvent(event)) {
+    while (window2.isOpen()) {
+        while (window2.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-                window.close();
+                window2.close();
             }
             else if (event.type == sf::Event::MouseMoved)
             {
-                sf::Vector2i MousePosition = sf::Mouse::getPosition(window);
+                sf::Vector2i MousePosition = sf::Mouse::getPosition(window2);
                 sf::FloatRect Rect1_4Pos = Rect1_4.getGlobalBounds();
                 sf::FloatRect Rect2_4Pos = Rect2_4.getGlobalBounds();
 
@@ -661,7 +667,7 @@ void Button::showButton4(const std::string& title, const std::string& title2)
 
             else if (event.type == sf::Event::MouseButtonPressed)
             {
-                sf::Vector2i MousePosition = sf::Mouse::getPosition(window);
+                sf::Vector2i MousePosition = sf::Mouse::getPosition(window2);
                 sf::FloatRect Rect1_4Pos = Rect1_4.getGlobalBounds();
                 sf::FloatRect Rect2_4Pos = Rect2_4.getGlobalBounds();
 
@@ -670,28 +676,28 @@ void Button::showButton4(const std::string& title, const std::string& title2)
                     if (Rect1_4Pos.contains(static_cast<sf::Vector2f>(MousePosition))) {
 
                         Pressed4 = 1;
-                        window.close();
+                        window2.close();
                     }
 
                     else if (Rect2_4Pos.contains(static_cast<sf::Vector2f>(MousePosition))) {
 
                         Pressed4 = 0;
-                        window.close();
+                        window2.close();
                     }
                     
                 }
             }
         }
 
-        window.clear();
-        window.draw(buttonRect2);
-        window.draw(titleText);
-        window.draw(titleText2);
-        window.draw(Rect1_4);
-        window.draw(TextR1_4);
-        window.draw(Rect2_4);
-        window.draw(TextR2_4);
-        window.display();
+        window2.clear();
+        window2.draw(buttonRect2);
+        window2.draw(titleText);
+        window2.draw(titleText2);
+        window2.draw(Rect1_4);
+        window2.draw(TextR1_4);
+        window2.draw(Rect2_4);
+        window2.draw(TextR2_4);
+        window2.display();
 
 
     }
@@ -700,18 +706,8 @@ void Button::showButton4(const std::string& title, const std::string& title2)
 
 
 
-/*
-void Button::showOptions()
-{
-}
-*/
-int Button::ReturnValue(int &value) {
-    return value;
-}
 
 
 
-//int Button::chooseOptions()
-//{
-//}
+
 
